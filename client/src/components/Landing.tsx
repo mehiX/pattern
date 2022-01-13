@@ -23,15 +23,15 @@ export default function Landing() {
   };
   return (
     <div>
-      <Banner initialSubheading />
-      If you don't have an account, please click "Create Account". Once created,
-      you can add as many example Link items as you like.
-      <div className="btnsContainer">
+      {/* <Banner initialSubheading /> */}
+      {/* If you don't have an account, please click "Create Account". Once created,
+      you can add as many example Link items as you like. */}
+      <div>
         <Login />
-        <Button className="btnWithMargin" onClick={toggleForm} centered inline>
+        <Button className="createAccountBtn" onClick={toggleForm} centered inline>
           Create Account
         </Button>
-        {userState.currentUser.username != null && (
+        {/* {userState.currentUser.username != null && (
           <Button
             className="btnWithMargin"
             centered
@@ -40,7 +40,7 @@ export default function Landing() {
           >
             Return to Current User
           </Button>
-        )}
+        )} */}
       </div>
       {isAdding && <AddUserForm hideForm={hideForm} />}
     </div>

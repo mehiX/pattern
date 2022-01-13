@@ -136,7 +136,7 @@ const UserPage = ({ match }: RouteComponentProps<RouteInfo>) => {
         BACK TO LOGIN
       </NavigationLink>
 
-      <Banner />
+      {/* <Banner /> */}
       {linkTokens.error.error_code != null && (
         <Callout warning>
           <div>

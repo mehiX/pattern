@@ -43,7 +43,7 @@ router.post(
         },
         client_name: 'Pattern',
         products,
-        country_codes: ['US'],
+        country_codes: ['NL'],
         language: 'en',
         webhook: httpTunnel.public_url + '/services/webhook',
         access_token: accessToken,

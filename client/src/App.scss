@@ -2,7 +2,10 @@ $threads-font-path: '~plaid-threads/fonts';
 @import '~plaid-threads/scss/typography';
 @import '~plaid-threads/scss/variables';
 
+// variables
 $border: 1px solid $black200;
+$black: #414141;
+
 /*
 
 
@@ -12,14 +15,15 @@ Base
 
 body {
   background: $white;
+  color: $black
 }
 
-.App {
-  max-width: 131 * $unit;
-  margin-right: auto;
-  margin-left: auto;
-  padding: 10 * $unit 5 * $unit;
-}
+// .App {
+//   max-width: 131 * $unit;
+//    margin-right: auto;
+//    margin-left: auto;
+//    padding: 10 * $unit 5 * $unit;
+// }
 
 /*
 
@@ -84,7 +88,7 @@ shared styles
   padding-left: $unit;
 }
 
-.Toastify__toast--error > .toast__body {
+.Toastify__toast--error>.toast__body {
   color: $white;
 }
 
@@ -130,6 +134,14 @@ Landing overview
   margin-left: 2 * $unit;
 }
 
+.createAccountBtn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  border-radius: 5px;
+  background-color: $black;
+}
+
 /*
 
 Modal
@@ -160,6 +172,7 @@ UserCard
   box-shadow: $shadow-medium;
   border-bottom: $border;
 }
+
 .user-card {
   display: flex;
 }
@@ -200,6 +213,7 @@ Item overview
   align-items: center;
   margin: 3 * $unit 0;
 }
+
 .item__header-heading {
   margin-bottom: 1rem;
   font-weight: normal;
@@ -271,7 +285,10 @@ Add User Form
 */
 
 .addUserForm {
-  margin-top: 3 * $unit;
+  margin: 2.4rem;
+  position: absolute;
+  width: calc(100% - 50px);
+  bottom: 30px;
 }
 
 .add-user__column-1 {
@@ -471,6 +488,7 @@ Monthly Spending
   letter-spacing: 1px;
   text-transform: uppercase;
 }
+
 .recharts-wrapper {
   margin: 0 2 * $unit;
 }
@@ -511,4 +529,55 @@ ErrorMessage
     right: 0;
     top: 0;
   }
+}
+
+/* GENERAL */
+.fullpage-wrapper {
+  height: 100vh;
+  width: 100vw;
+}
+
+.text-centered {
+  text-align: center;
+}
+
+.flex {
+  display: flex;
+
+  .flex-centered {
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.button {
+  font-size: 20px;
+  padding: 6px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+
+  &.button-primary {
+    color: white;
+    background-color: $black;
+
+    &:focus {
+      background-color: $black;
+    }
+  }
+}
+
+.fullpage-wrapper {
+  height: 100vh;
+  width: 100%;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-centered {
+  justify-content: center;
+  align-items: center;
 }
