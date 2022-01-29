@@ -27,6 +27,7 @@
   },
   "scripts": {
     "start": "PORT=3001 react-scripts start",
+    "startWin": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
@@ -57,5 +58,5 @@
     "eslint-plugin-prettier": "^3.0.1",
     "prettier": "^1.16.4"
   },
-  "proxy": "http://server:5000"
+  "proxy": "http://localhost:5000"
 }
