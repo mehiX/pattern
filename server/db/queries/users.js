@@ -10,11 +10,11 @@ const db = require('../');
  * @param {string} username the username of the user.
  * @returns {Object} the new user.
  */
-const createUser = async username => {
+const createUser = async (localID, username) => {
   const query = {
     // RETURNING is a Postgres-specific clause that returns a list of the inserted items.
-    text: 'INSERT INTO users_table (username) VALUES ($1) RETURNING *;',
-    values: [username],
+    text: 'INSERT INTO users_table (localId, username) VALUES ($1, $2) RETURNING *;',
+    values: [localID, username],
   };
   const { rows } = await db.query(query);
   return rows[0];
@@ -68,6 +68,22 @@ const retrieveUserByUsername = async username => {
 };
 
 /**
+ * Retrieves a single user by LocalID.
+ *
+ * @param {string} localID the local ID to search for.
+ * @returns {Object} a single user.
+ */
+ const retrieveUserByLocalID = async localID => {
+  const query = {
+    text: 'SELECT * FROM users WHERE localId = $1',
+    values: [localID],
+  };
+  const { rows: users } = await db.query(query);
+  // the localId column has a UNIQUE constraint, so this will never return more than one row.
+  return users[0];
+};
+
+/**
  * Retrieves all users.
  *
  * @returns {Object[]} an array of users.
@@ -85,5 +101,6 @@ module.exports = {
   deleteUsers,
   retrieveUserById,
   retrieveUserByUsername,
+  retrieveUserByLocalID,
   retrieveUsers,
 };

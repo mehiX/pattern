@@ -18,8 +18,8 @@ const api = axios.create({
 
 export default api;
 // currentUser
-export const getLoginUser = (username: string) =>
-  api.post('/sessions', { username });
+export const getLoginUser = (localID: string) =>
+  api.post('/sessions', { localID });
 
 // assets
 export const addAsset = (userId: number, description: string, value: number) =>
@@ -31,8 +31,8 @@ export const deleteAssetByAssetId = (assetId: number) =>
 // users
 export const getUsers = () => api.get('/users');
 export const getUserById = (userId: number) => api.get(`/users/${userId}`);
-export const addNewUser = (username: string) =>
-  api.post('/users', { username });
+export const addNewUser = (localID: string, username: string) =>
+  api.post('/users', { localID, username });
 export const deleteUserById = (userId: number) =>
   api.delete(`/users/${userId}`);
 
