@@ -10,11 +10,11 @@ const db = require('../');
  * @param {string} username the username of the user.
  * @returns {Object} the new user.
  */
-const createUser = async (localID, username) => {
+const createUser = async (localID, username, email) => {
   const query = {
     // RETURNING is a Postgres-specific clause that returns a list of the inserted items.
-    text: 'INSERT INTO users_table (localId, username) VALUES ($1, $2) RETURNING *;',
-    values: [localID, username],
+    text: 'INSERT INTO users_table (localId, username, email) VALUES ($1, $2, $3) RETURNING *;',
+    values: [localID, username, email],
   };
   const { rows } = await db.query(query);
   return rows[0];
