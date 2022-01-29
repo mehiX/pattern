@@ -64,12 +64,13 @@ export function UsersProvider(props: any) {
       const { data: payload } = await apiAddNewUser(localID, username, email);
       dispatch({ type: 'SUCCESSFUL_GET', payload: payload });
     } catch (err) {
-      const { response } = err;
-      if (response && response.status === 409) {
-        toast.error(`Username ${username} already exists`);
-      } else {
-        toast.error('Error adding new user');
-      }
+      console.error(err);
+      // const { response } = err;
+      // if (response && response.status === 409) {
+      //   // toast.error(`Username ${username} already exists`);
+      // } else {
+      //   toast.error('Error adding new user');
+      // }
     }
   }, []);
 

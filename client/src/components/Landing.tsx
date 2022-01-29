@@ -24,7 +24,7 @@ export default function Landing() {
 
   // get user form local storage
   const rawUser = localStorage.getItem('jubleeUser');
-  const jubleeUser = rawUser ? JSON.parse(rawUser) : null;
+  const jubleeUser = (rawUser && rawUser !== '{}') ? JSON.parse(rawUser) : null;
 
   return (
     <div>

@@ -5,7 +5,7 @@ import NavigationLink from 'plaid-threads/NavigationLink';
 import LoadingSpinner from 'plaid-threads/LoadingSpinner';
 import Callout from 'plaid-threads/Callout';
 import Button from 'plaid-threads/Button';
-import { Logout } from '.';
+import { FirstStep, Logout } from '.';
 import { AddBankAccount } from '.';
 
 import { RouteInfo, ItemType, AccountType, AssetType } from './types';
@@ -16,7 +16,7 @@ import {
   useUsers,
   useAssets,
   useLink,
-  useCurrentUser
+  useCurrentUser,
 } from '../services';
 
 import { pluralize } from '../util';
@@ -36,13 +36,6 @@ import {
 // account and transactions details for linked items
 
 const UserPage = () => {
-  const [user, setUser] = useState({
-    id: 0,
-    username: '',
-    email: '',
-    created_at: '',
-    updated_at: '',
-  });
   const history = useHistory();
   const [items, setItems] = useState<ItemType[]>([]);
   const [token, setToken] = useState('');
@@ -57,8 +50,21 @@ const UserPage = () => {
   const { usersById, getUserById } = useUsers();
   const { itemsByUser, getItemsByUser } = useItems();
   const { userState } = useCurrentUser();
-  // @TODO!!!! When user gets created the data is not here. Fix that.
-  const userId = userState.currentUser.id;
+  // Get user
+  const rawUser = localStorage.getItem('jubleeUser');
+  const jubleeUser = rawUser && rawUser !== '{}' ? JSON.parse(rawUser) : null;
+  const currentUser =
+    Object.keys(userState.currentUser).length !== 0
+      ? userState.currentUser
+      : jubleeUser;
+  const userId = currentUser ? currentUser.id : null;
+  const [user, setUser] = useState({
+    id: userId,
+    username: currentUser.userName,
+    email: currentUser.email,
+    created_at: '',
+    updated_at: '',
+  });
   const { generateLinkToken, linkTokens } = useLink();
 
   const initiateLink = async () => {
@@ -135,13 +141,6 @@ const UserPage = () => {
   useEffect(() => {
     setToken(linkTokens.byUser[userId]);
   }, [linkTokens, userId, numOfItems]);
-
-  function handleUserInformation() {
-    console.log(numOfItems);
-  }
-  function handleError() {
-    console.log(numOfItems);
-  }
 
   document.getElementsByTagName('body')[0].style.overflow = 'auto'; // to override overflow:hidden from link pane
   return (

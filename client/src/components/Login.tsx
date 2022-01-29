@@ -46,16 +46,7 @@ const Login = () => {
   //   props.hideForm();
   // };
 
-  useEffect(() => {}, [addNewUser, getUsers]);
-
-  useEffect(() => {
-    const jubleeUser = {
-      id: userState.currentUser.id,
-      userName: userState.currentUser.username,
-      email: userState.currentUser.email,
-    };
-    setUser(jubleeUser);
-  }, [userState]);
+  // useEffect(() => {}, [addNewUser, getUsers]);
 
   // const createUser = async (username: string) => {
   //   await addNewUser(username);
@@ -78,13 +69,16 @@ const Login = () => {
         const displayName = user.displayName;
         username = user.displayName ? user.displayName : '';
         const email = user.email ? user.email : '';
+        // Save user in the DB
+        addNewUser(userID, username, email);
+
         try {
           login(userID, username, email);
           const jubleeUser = {
             userName: username,
             email: email,
           };
-          localStorage.setItem('jubleeUser', JSON.stringify(jubleeUser));
+          // localStorage.setItem('jubleeUser', JSON.stringify(jubleeUser));
         } catch (error) {
           // TODO:  Handle error
           console.error('Login Failed', error);
@@ -101,13 +95,27 @@ const Login = () => {
       });
   };
 
+  useEffect(() => {
+    const jubleeUser = {
+      id: userState.currentUser.id,
+      userName: userState.currentUser.username,
+      email: userState.currentUser.email,
+    };
+    setUser(jubleeUser);
+    localStorage.setItem('jubleeUser', JSON.stringify(jubleeUser));
+    console.log('userState', userState);
+  }, [userState])
+
   return (
     <div>
       <div className="fullpage-wrapper flex flex-centered">
         <div className="login-wrapper">
           <h1 className="text-centered">LOGIN</h1>
           <p>Log in with your Google account.</p>
-          <button className="button button-primary w-100" onClick={handleSubmit}>
+          <button
+            className="button button-primary w-100"
+            onClick={handleSubmit}
+          >
             Log In
           </button>
         </div>
