@@ -15,6 +15,7 @@ import {
 
 import { useCurrentUser, useUsers } from '../services';
 import { isEmpty } from 'lodash';
+import { userInfo } from 'os';
 
 const Login = () => {
   const { login } = useCurrentUser();
@@ -69,7 +70,7 @@ const Login = () => {
         username = user.displayName ? user.displayName : '';
         const email = user.email;
         try {
-          login(username);
+          login(userID, username);
           const jubleeUser = {
             uId: userID,
             userName: username,

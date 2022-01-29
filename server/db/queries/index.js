@@ -33,6 +33,7 @@ const {
   retrieveUsers,
   retrieveUserById,
   retrieveUserByUsername,
+  retrieveUserByLocalID,
 } = require('./users');
 const { createLinkEvent } = require('./linkEvents');
 
@@ -71,6 +72,7 @@ module.exports = {
   deleteUsers,
   retrieveUserById,
   retrieveUserByUsername,
+  retrieveUserByLocalID,
   retrieveUsers,
   // assets
   createAsset,

@@ -3,8 +3,8 @@
   "version": "1.0.7",
   "private": true,
   "scripts": {
-    "start": "node index.js",
-    "debug": "nodemon --inspect=0.0.0.0:9229 index.js",
+    "start": "PORT=5000 node index.js",
+    "debug": "PORT=5000 nodemon --inspect=0.0.0.0:9229 index.js",
     "lint": "eslint **/*.js -c .eslintrc.json"
   },
   "dependencies": {

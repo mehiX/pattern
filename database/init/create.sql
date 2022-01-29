@@ -17,6 +17,7 @@ $$ LANGUAGE plpgsql;
 CREATE TABLE users_table
 (
   id SERIAL PRIMARY KEY,
+  localId text UNIQUE NOT NULL,
   username text UNIQUE NOT NULL,
   created_at timestamptz default now(),
   updated_at timestamptz default now()
@@ -31,6 +32,7 @@ CREATE VIEW users
 AS
   SELECT
     id,
+    localId,
     username,
     created_at,
     updated_at

@@ -13,6 +13,7 @@ const {
   retrieveItemsByUser,
   retrieveTransactionsByUserId,
   retrieveUserById,
+  retrieveUserByLocalID,
 } = require('../db/queries');
 const { asyncWrapper } = require('../middleware');
 const {
@@ -44,18 +45,19 @@ router.get(
  *
  * @TODO make this return an array for consistency.
  *
+ * @param {string} localID the localID of the new user.
  * @param {string} username the username of the new user.
  * @returns {Object[]} an array containing the new user.
  */
 router.post(
   '/',
   asyncWrapper(async (req, res) => {
-    const { username } = req.body;
-    const usernameExists = await retrieveUserByUsername(username);
+    const { localID, username } = req.body;
+    const userExists = await retrieveUserByLocalID(localID);
     // prevent duplicates
-    if (usernameExists)
-      throw new Boom('Username already exists', { statusCode: 409 });
-    const newUser = await createUser(username);
+    if (userExists)
+      throw new Boom('User already exists', { statusCode: 409 });
+    const newUser = await createUser(localID, username);
     res.json(sanitizeUsers(newUser));
   })
 );

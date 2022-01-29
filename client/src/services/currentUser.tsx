@@ -8,7 +8,7 @@ import React, {
 } from 'react';
 import { toast } from 'react-toastify';
 import { useHistory } from 'react-router-dom';
-import { getLoginUser as apiGetLoginUser } from './api';
+import { getLoginUser as apiGetLoginUser, addNewUser } from './api';
 import { UserType } from '../components/types';
 
 interface CurrentUserState {
@@ -33,7 +33,7 @@ interface CurrentUserContextShape extends CurrentUserState {
   setNewUser: (username: string) => void;
   userState: CurrentUserState;
   setCurrentUser: (username: string) => void;
-  login: (username: string) => void;
+  login: (localID: string, username: string) => void;
 }
 const CurrentUserContext = createContext<CurrentUserContextShape>(
   initialState as CurrentUserContextShape
@@ -50,9 +50,12 @@ export function CurrentUserProvider(props: any) {
    * @desc Requests details for a single User.
    */
   const login = useCallback(
-    async username => {
+    async (localID, username) => {
       try {
-        const { data: payload } = await apiGetLoginUser(username);
+        var { data: payload } = await apiGetLoginUser(localID);
+        if (payload == null) {
+          payload = await addNewUser(localID, username);
+        }
         if (payload != null) {
           toast.success(`Successful login.  Welcome back ${username}`);
           dispatch({ type: 'SUCCESSFUL_GET', payload: payload[0] });
