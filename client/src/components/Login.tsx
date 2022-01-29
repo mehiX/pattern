@@ -56,6 +56,7 @@ const Login = () => {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     let username: string = '';
+    console.log('dentro');
 
     // Log in user with Google
     signInWithPopup(auth, provider)

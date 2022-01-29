@@ -614,6 +614,18 @@ stepWizard
     width: 35%;
     margin: auto;
 
+    &.checkboxWrapper {
+      width: 70%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+
+      &:not(:last-child) {
+        border-bottom: 1px solid $mainGrey;
+      }
+    }
+
     .currency {
       font-weight: 600;
       font-size: 40px;

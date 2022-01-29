@@ -142,10 +142,15 @@ const UserPage = () => {
     setToken(linkTokens.byUser[userId]);
   }, [linkTokens, userId, numOfItems]);
 
-  document.getElementsByTagName('body')[0].style.overflow = 'auto'; // to override overflow:hidden from link pane
+  // document.getElementsByTagName('body')[0].style.overflow = 'auto'; // to override overflow:hidden from link pane
   return (
     <div>
       <Logout />
+
+      {token != null && token.length > 0 && (
+        // Link (render for adding a bank) will not render unless there is a link token
+        <LaunchLink token={token} userId={userId} itemId={null} />
+      )}
       {numOfItems === 0 && <AddBankAccount />}
       {numOfItems !== 0 && (
         <div>
@@ -154,7 +159,6 @@ const UserPage = () => {
               BACK TO LOGIN
             </NavigationLink>
 
-            {/* <Banner /> */}
             {linkTokens.error.error_code != null && (
               <Callout warning>
                 <div>
@@ -239,10 +243,10 @@ const UserPage = () => {
                     Add another bank
                   </Button>
 
-                  {token != null && token.length > 0 && (
+                  {/* {token != null && token.length > 0 && (
                     // Link will not render unless there is a link token
                     <LaunchLink token={token} userId={userId} itemId={null} />
-                  )}
+                  )} */}
                 </div>
                 <ErrorMessage />
                 {items.map(item => (
