@@ -32,9 +32,9 @@ export default function Landing() {
         <div>
           <div>
             <Login />
-            <Button className="createAccountBtn" onClick={toggleForm}>
+            {/* <Button className="createAccountBtn" onClick={toggleForm}>
               Create Account!!
-            </Button>
+            </Button> */}
           </div>
           {isAdding && <AddUserForm hideForm={hideForm} />}
         </div>

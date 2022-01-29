@@ -57,10 +57,10 @@ const Login = () => {
     setUser(jubleeUser);
   }, [userState]);
 
-  const createUser = async (username: string) => {
-    await addNewUser(username);
-    setNewUser(username);
-  };
+  // const createUser = async (username: string) => {
+  //   await addNewUser(username);
+  //   setNewUser(username);
+  // };
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -81,8 +81,8 @@ const Login = () => {
         try {
           login(userID, username, email);
           const jubleeUser = {
-            userName: userState.currentUser.username,
-            email: userState.currentUser.email,
+            userName: username,
+            email: email,
           };
           localStorage.setItem('jubleeUser', JSON.stringify(jubleeUser));
         } catch (error) {
@@ -107,7 +107,7 @@ const Login = () => {
         <div className="login-wrapper">
           <h1 className="text-centered">LOGIN</h1>
           <p>Log in with your Google account.</p>
-          <button className="button button-primary" onClick={handleSubmit}>
+          <button className="button button-primary w-100" onClick={handleSubmit}>
             Log In
           </button>
         </div>

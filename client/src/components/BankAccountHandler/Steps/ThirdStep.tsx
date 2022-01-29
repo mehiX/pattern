@@ -1,9 +1,8 @@
 import { useLink } from '../../../services';
 import Input from '../../Elements/Input';
-import StepsHandler from '../Steps/StepsHandler';
+import StepsHandler from './StepsHandler';
 
-const SecondStep = (props: any) => {
-
+const ThirdStep = (props: any) => {
   return (
     <div className="StepWizardStep">
       <h1>Add the savings account balance for -Bank-</h1>
@@ -39,4 +38,4 @@ const SecondStep = (props: any) => {
   );
 };
 
-export default SecondStep;
+export default ThirdStep;

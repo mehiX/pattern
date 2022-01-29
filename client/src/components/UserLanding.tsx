@@ -16,6 +16,7 @@ import {
   useUsers,
   useAssets,
   useLink,
+  useCurrentUser
 } from '../services';
 
 import { pluralize } from '../util';
@@ -55,8 +56,9 @@ const UserPage = () => {
   const { assetsByUser, getAssetsByUser } = useAssets();
   const { usersById, getUserById } = useUsers();
   const { itemsByUser, getItemsByUser } = useItems();
-  // @TODO!!!! Chanhge that, gets it dynamically.
-  const userId = 4;
+  const { userState } = useCurrentUser();
+  // @TODO!!!! When user gets created the data is not here. Fix that.
+  const userId = userState.currentUser.id;
   const { generateLinkToken, linkTokens } = useLink();
 
   const initiateLink = async () => {
@@ -135,7 +137,7 @@ const UserPage = () => {
   }, [linkTokens, userId, numOfItems]);
 
   function handleUserInformation() {
-    console.log(' ciao');
+    console.log(numOfItems);
   }
   function handleError() {
     console.log(numOfItems);
@@ -144,10 +146,7 @@ const UserPage = () => {
   document.getElementsByTagName('body')[0].style.overflow = 'auto'; // to override overflow:hidden from link pane
   return (
     <div>
-      <Logout
-        onHandleUser={handleUserInformation}
-        onHandleError={handleError}
-      />
+      <Logout />
       {numOfItems === 0 && <AddBankAccount />}
       {numOfItems !== 0 && (
         <div>
