@@ -18,15 +18,15 @@ const FirstStep = (props: any) => {
       <h1>Connect</h1>
       <h2>Hi, {jubleeUser.userName}</h2>
       <p>Tap the button to connect with your bank </p>
-      {/* <button className="button button-primary" onClick={initiateLink}>
+      <button className="button button-primary" onClick={initiateLink}>
         Start
-      </button> */}
-      <button
+      </button>
+      {/* <button
         className="button button-primary"
         onClick={() => props.goToStep(+props.step + 1)}
       >
         Next
-      </button>
+      </button> */}
     </div>
   );
 };

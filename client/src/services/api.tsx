@@ -31,8 +31,8 @@ export const deleteAssetByAssetId = (assetId: number) =>
 // users
 export const getUsers = () => api.get('/users');
 export const getUserById = (userId: number) => api.get(`/users/${userId}`);
-export const addNewUser = (localID: string, username: string) =>
-  api.post('/users', { localID, username });
+export const addNewUser = (localID: string, username: string, email: String) =>
+  api.post('/users', { localID, username, email });
 export const deleteUserById = (userId: number) =>
   api.delete(`/users/${userId}`);
 

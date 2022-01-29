@@ -33,7 +33,7 @@ interface CurrentUserContextShape extends CurrentUserState {
   setNewUser: (username: string) => void;
   userState: CurrentUserState;
   setCurrentUser: (username: string) => void;
-  login: (localID: string, username: string) => void;
+  login: (localID: string, username: string, email: String) => void;
 }
 const CurrentUserContext = createContext<CurrentUserContextShape>(
   initialState as CurrentUserContextShape
@@ -50,11 +50,14 @@ export function CurrentUserProvider(props: any) {
    * @desc Requests details for a single User.
    */
   const login = useCallback(
-    async (localID, username) => {
+    async (localID, username, userEmail) => {
       try {
         var { data: payload } = await apiGetLoginUser(localID);
+        console.log('payload', payload);
         if (payload == null) {
-          payload = await addNewUser(localID, username);
+          payload = await addNewUser(localID, username, userEmail);
+          console.log('payload new user', payload);
+          console.log('payload user not found', payload);
         }
         if (payload != null) {
           toast.success(`Successful login.  Welcome back ${username}`);

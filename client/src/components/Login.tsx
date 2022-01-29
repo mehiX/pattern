@@ -18,14 +18,12 @@ import { isEmpty } from 'lodash';
 import { userInfo } from 'os';
 
 const Login = () => {
-  const { login } = useCurrentUser();
+  const { login, setNewUser, userState } = useCurrentUser();
   const [show, setShow] = useState(false);
   const [value, setValue] = useState('');
-
   const [username, setUsername] = useState('');
 
   const { allUsers, addNewUser, getUsers } = useUsers();
-  const { setNewUser } = useCurrentUser();
   const [globalUsers, setGlobalUsers] = useState({});
 
   async function getGlobalUsers(): Promise<any> {
@@ -48,6 +46,17 @@ const Login = () => {
 
   useEffect(() => {}, [addNewUser, getUsers]);
 
+  useEffect(() => {
+    console.log('userState', userState);
+    // const jubleeUser = {
+    //   id: userID,
+    //   uId: userID,
+    //   userName: username,
+    //   email: email,
+    // };
+    // localStorage.setItem('jubleeUser', JSON.stringify({ jubleeUser }));
+  }, [userState]);
+
   const createUser = async (username: string) => {
     await addNewUser(username);
     setNewUser(username);
@@ -68,17 +77,12 @@ const Login = () => {
         const userID = user.uid;
         const displayName = user.displayName;
         username = user.displayName ? user.displayName : '';
-        const email = user.email;
+        const email = user.email ? user.email : '';
         try {
-          login(userID, username);
-          const jubleeUser = {
-            uId: userID,
-            userName: username,
-            email: email,
-          };
-          localStorage.setItem('jubleeUser', JSON.stringify({ jubleeUser }));
+          login(userID, username, email);
         } catch (error) {
-          // Handle error
+          // TODO:  Handle error
+          console.error('Login Failed', error);
         }
       })
       .catch(error => {

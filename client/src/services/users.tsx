@@ -59,9 +59,9 @@ export function UsersProvider(props: any) {
   /**
    * @desc Creates a new user
    */
-  const addNewUser = useCallback(async (localID, username) => {
+  const addNewUser = useCallback(async (localID, username, email) => {
     try {
-      const { data: payload } = await apiAddNewUser(localID, username);
+      const { data: payload } = await apiAddNewUser(localID, username, email);
       dispatch({ type: 'SUCCESSFUL_GET', payload: payload });
     } catch (err) {
       const { response } = err;

@@ -74,6 +74,7 @@ export interface AssetType {
 export interface UserType {
   id: number;
   username: string | null;
+  email: string | null;
   created_at: string;
   updated_at: string;
 }

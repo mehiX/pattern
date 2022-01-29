@@ -62,7 +62,7 @@ const sanitizeItems = items =>
  * @param {(Object|Object[])} users a single user or an array of users.
  */
 const sanitizeUsers = users =>
-  sanitizeWith(users, ['id', 'username', 'created_at', 'updated_at']);
+  sanitizeWith(users, ['id', 'username', 'email', 'created_at', 'updated_at']);
 
 /**
  * Returns an array of transactions

@@ -38,6 +38,7 @@ const UserPage = () => {
   const [user, setUser] = useState({
     id: 0,
     username: '',
+    email: '',
     created_at: '',
     updated_at: '',
   });

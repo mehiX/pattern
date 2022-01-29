@@ -20,6 +20,7 @@ router.post(
   asyncWrapper(async (req, res) => {
     const { localID } = req.body;
     const user = await retrieveUserByLocalID(localID);
+    console.log('user!', user);
     if (user != null) {
       res.json(sanitizeUsers(user));
     } else {
