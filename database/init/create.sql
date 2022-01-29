@@ -19,6 +19,7 @@ CREATE TABLE users_table
   id SERIAL PRIMARY KEY,
   localId text UNIQUE NOT NULL,
   username text UNIQUE NOT NULL,
+  email text UNIQUE,
   created_at timestamptz default now(),
   updated_at timestamptz default now()
 );
@@ -34,6 +35,7 @@ AS
     id,
     localId,
     username,
+    email,
     created_at,
     updated_at
   FROM
