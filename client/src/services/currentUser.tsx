@@ -56,7 +56,8 @@ export function CurrentUserProvider(props: any) {
         if (payload != null) {
           toast.success(`Successful login.  Welcome back ${username}`);
           dispatch({ type: 'SUCCESSFUL_GET', payload: payload[0] });
-          history.push(`/user/${payload[0].id}`);
+          // history.push(`/user/${payload[0].id}`);
+          history.push(`/`);
         } else {
           toast.error(`Username ${username} is invalid.  Try again. `);
           dispatch({ type: 'FAILED_GET' });

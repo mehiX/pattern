@@ -3,7 +3,7 @@ import Button from 'plaid-threads/Button';
 import { useHistory } from 'react-router-dom';
 
 import { useCurrentUser } from '../services';
-import { Login, Banner, AddUserForm } from '.';
+import { Login, Banner, AddUserForm, UserLanding } from '.';
 
 import { useBoolean } from '../hooks';
 
@@ -21,28 +21,25 @@ export default function Landing() {
   const returnToCurrentUser = () => {
     history.push(`/user/${userState.currentUser.id}`);
   };
+
+  // get user form local storage
+  const rawUser = localStorage.getItem('jubleeUser');
+  const jubleeUser = rawUser ? JSON.parse(rawUser) : null;
+
   return (
     <div>
-      {/* <Banner initialSubheading /> */}
-      {/* If you don't have an account, please click "Create Account". Once created,
-      you can add as many example Link items as you like. */}
-      <div>
-        <Login />
-        <Button className="createAccountBtn" onClick={toggleForm} centered inline>
-          Create Account
-        </Button>
-        {/* {userState.currentUser.username != null && (
-          <Button
-            className="btnWithMargin"
-            centered
-            inline
-            onClick={returnToCurrentUser}
-          >
-            Return to Current User
-          </Button>
-        )} */}
-      </div>
-      {isAdding && <AddUserForm hideForm={hideForm} />}
+      {!jubleeUser && (
+        <div>
+          <div>
+            <Login />
+            <Button className="createAccountBtn" onClick={toggleForm}>
+              Create Account!!
+            </Button>
+          </div>
+          {isAdding && <AddUserForm hideForm={hideForm} />}
+        </div>
+      )}
+      {jubleeUser && <UserLanding />}
     </div>
   );
 }

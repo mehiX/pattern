@@ -566,6 +566,12 @@ ErrorMessage
       background-color: $black;
     }
   }
+
+  &.logout-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }
 }
 
 .fullpage-wrapper {
@@ -580,4 +586,64 @@ ErrorMessage
 .flex-centered {
   justify-content: center;
   align-items: center;
+}
+
+/*
+
+stepWizard
+
+*/
+.stepWizard {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 15%;
+}
+
+.StepWizardStep {
+  h1 {
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+
+  h2 {
+    text-align: center;
+    font-weight: 400;
+    font-size: 20px;
+  }
+
+  p {
+    text-align: center;
+  }
+}
+
+/*
+  INPUT
+*/
+.floating-label-group {
+  position: relative;
+  margin-top: 15px;
+  margin-bottom: 25px;
+
+  .floating-label {
+    font-size: 13px;
+    color: #cccccc;
+    position: absolute;
+    pointer-events: none;
+    top: 9px;
+    left: 12px;
+    transition: all 0.1s ease;
+  }
+
+  input:focus~.floating-label,
+  input:not(:focus):valid~.floating-label {
+    top: -15px;
+    bottom: 0px;
+    left: 0px;
+    font-size: 11px;
+    opacity: 1;
+    color: #404040;
+  }
 }

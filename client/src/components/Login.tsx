@@ -55,9 +55,6 @@ const Login = () => {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     let username: string = '';
-    const users = await allUsers;
-
-    console.log('globalUsers: ', globalUsers);
 
     // Log in user with Google
     signInWithPopup(auth, provider)
@@ -71,33 +68,16 @@ const Login = () => {
         const displayName = user.displayName;
         username = user.displayName ? user.displayName : '';
         const email = user.email;
-
-        // Check if user exists
-        var userExists: boolean = false;
-        var userFounded = users.reduce(function(
-          founded: boolean = false,
-          user: any
-        ) {
-          console.log('user.username : ', user.username);
-          console.log('username: ', username);
-          if (user.username.trim() === username.trim()) {
-            userExists = true;
-            console.log('founded: ', userExists);
-          }
-          return founded;
-        },
-        []);
-        if (!userFounded && isEmpty(userFounded) && userFounded.length) {
-          userExists = true;
-        }
-        // If user exists, log in. Otherwise Create user in the DB
-        console.log('userExists', userExists);
-        if (userExists === true) {
-          console.log('login');
+        try {
           login(username);
-        } else {
-          console.log('createUser');
-          createUser(username);
+          const jubleeUser = {
+            uId: userID,
+            userName: username,
+            email: email,
+          };
+          localStorage.setItem('jubleeUser', JSON.stringify({ jubleeUser }));
+        } catch (error) {
+          // Handle error
         }
       })
       .catch(error => {
@@ -144,12 +124,6 @@ const Login = () => {
         </>
       </Modal> */}
       </div>
-      <StepWizard>
-        <TestStepWizard step="1" />
-        <TestStepWizard step="2" />
-        <TestStepWizard step="3" />
-        <TestStepWizard step="4" />
-      </StepWizard>
     </div>
   );
 };
