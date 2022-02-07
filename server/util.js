@@ -82,6 +82,7 @@ const sanitizeTransactions = transactions =>
     'amount',
     'created_at',
     'updated_at',
+    'is_own',
   ]);
 
 const validItemStatuses = new Set(['good', 'bad']);

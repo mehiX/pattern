@@ -221,6 +221,24 @@ AS
     transactions_table t
     LEFT JOIN accounts a ON t.account_id = a.id;
 
+-- Added by Mihai
+-- Keep track of the transactions made to other accounts owned by the same user
+
+CREATE TABLE transactions_own_account_table
+(
+  id SERIAL PRIMARY KEY,
+  transaction_id integer UNIQUE REFERENCES transactions_table(id) ON DELETE CASCADE
+);
+
+CREATE VIEW transactions_own_account
+AS
+  SELECT
+    t.*,
+    CASE WHEN toa.transaction_id IS NULL THEN 0 ELSE 1 END is_own
+  FROM
+    transactions_table t
+    LEFT JOIN transactions_own_account_table toa ON toa.transaction_id = t.id;
+
 
 -- The link_events_table is used to log responses from the Plaid API for client requests to the
 -- Plaid Link client. This information is useful for troubleshooting.
@@ -254,3 +272,32 @@ CREATE TABLE plaid_api_events_table
   error_code text,
   created_at timestamptz default now()
 );
+
+-- Added by Mihai
+-- Add extra information as part of the onboarding process
+
+CREATE TABLE extra_info_table
+(
+  id SERIAL PRIMARY KEY,
+  item_id integer REFERENCES items_table(id) ON DELETE CASCADE,
+  savings_balance numeric(28,10) NOT NULL,
+  created_at timestamptz default now(),
+  updated_at timestamptz default now()
+);
+
+CREATE TRIGGER extra_info_updated_at_timestamp
+BEFORE UPDATE ON extra_info_table
+FOR EACH ROW
+EXECUTE PROCEDURE trigger_set_timestamp();
+
+CREATE VIEW extra_info
+AS
+  SELECT
+    t.id,
+    t.item_id,
+    t.savings_balance,
+    t.created_at,
+    t.updated_at
+  FROM
+    extra_info_table t;
+

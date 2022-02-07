@@ -85,7 +85,7 @@ const createTransactions = async transactions => {
  */
 const retrieveTransactionsByAccountId = async accountId => {
   const query = {
-    text: 'SELECT * FROM transactions WHERE account_id = $1 ORDER BY date DESC',
+    text: 'SELECT * FROM transactions_own_account WHERE account_id = $1 ORDER BY date DESC',
     values: [accountId],
   };
   const { rows: transactions } = await db.query(query);
@@ -175,6 +175,38 @@ const deleteTransactions = async plaidTransactionIds => {
   await Promise.all(pendingQueries);
 };
 
+/**
+ * Set own transactions
+ * 
+ * @param {string[]} plaidTransactionIds the Plaid IDs of the transactions.
+ */
+const setOwnTransactions = async plaidTransactionIds => {
+  const pendingQueries = plaidTransactionIds.map(async transactionId => {
+    const query = {
+      test: 'INSERT INTO transactions_own_account_table (transaction_id) VALUES ($1);',
+      values: [transactionId],
+    };
+    await db.query(query);
+  });
+  await Promise.all(pendingQueries);
+}
+
+/**
+ * Unset own transactions
+ * 
+ * @param {string[]} plaidTransactionIds the Plaid IDs of the transactions.
+ */
+ const unsetOwnTransactions = async plaidTransactionIds => {
+  const pendingQueries = plaidTransactionIds.map(async transactionId => {
+    const query = {
+      test: 'DELETE FROM transactions_own_account_table WHERE transaction_id = $1;',
+      values: [transactionId],
+    };
+    await db.query(query);
+  });
+  await Promise.all(pendingQueries);
+}
+
 module.exports = {
   createTransactions,
   retrieveTransactionsByAccountId,
@@ -182,4 +214,6 @@ module.exports = {
   retrieveTransactionsByUserId,
   retrieveTransactionsInDateRange,
   deleteTransactions,
+  setOwnTransactions,
+  unsetOwnTransactions,
 };
