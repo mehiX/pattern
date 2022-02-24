@@ -67,6 +67,12 @@ export const getTransactionsByItem = (itemId: number) =>
 export const getTransactionsByUser = (userId: number) =>
   api.get(`/users/${userId}/transactions`);
 
+// Own transactions
+export const setOwnTransactionByTransaction = (transactionId: number) =>
+  api.post(`/transactions/${transactionId}/own`);
+export const deleteOwnTransactionByTransaction = (transactionId: number) =>
+  api.delete(`/transactions/${transactionId}/own`);
+
 // institutions
 export const getInstitutionById = (instId: string) =>
   api.get(`/institutions/${instId}`);

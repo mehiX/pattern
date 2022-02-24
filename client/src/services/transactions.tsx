@@ -17,6 +17,8 @@ import {
   getTransactionsByAccount as apiGetTransactionsByAccount,
   getTransactionsByItem as apiGetTransactionsByItem,
   getTransactionsByUser as apiGetTransactionsByUser,
+  setOwnTransactionByTransaction as apiSetOwnTransactionByTransaction,
+  deleteOwnTransactionByTransaction as apiDeleteOwnTransactionByTransaction,
 } from './api';
 import { Dictionary } from 'lodash';
 
@@ -41,6 +43,8 @@ interface TransactionsContextShape extends TransactionsState {
   deleteTransactionsByUserId: (userId: number) => void;
   transactionsByUser: Dictionary<any>;
   getTransactionsByUser: (userId: number) => void;
+  setOwnTransactionById: (transactionID: number) => void;
+  deleteOwnTransactionById: (transactionID: number) => void;
   transactionsByItem: Dictionary<any>;
 }
 const TransactionsContext = createContext<TransactionsContextShape>(
@@ -108,6 +112,24 @@ export function TransactionsProvider(props: any) {
   }, []);
 
   /**
+   * @desc Set as Own transaction by given transactio ID
+   */
+  const setOwnTransactionById = useCallback(async transactionID => {
+    const { data: payload } = await apiSetOwnTransactionByTransaction(
+      transactionID
+    );
+  }, []);
+
+  /**
+   * @desc Delete an Own transaction by given transactio ID
+   */
+  const deleteOwnTransactionById = useCallback(async transactionID => {
+    const { data: payload } = await apiDeleteOwnTransactionByTransaction(
+      transactionID
+    );
+  }, []);
+
+  /**
    * @desc Builds a more accessible state shape from the Transactions data. useMemo will prevent
    * these from being rebuilt on every render unless transactionsById is updated in the reducer.
    */
@@ -126,6 +148,8 @@ export function TransactionsProvider(props: any) {
       getTransactionsByUser,
       deleteTransactionsByItemId,
       deleteTransactionsByUserId,
+      setOwnTransactionById,
+      deleteOwnTransactionById,
     };
   }, [
     dispatch,
@@ -135,6 +159,8 @@ export function TransactionsProvider(props: any) {
     getTransactionsByUser,
     deleteTransactionsByItemId,
     deleteTransactionsByUserId,
+    setOwnTransactionById,
+    deleteOwnTransactionById,
   ]);
 
   return <TransactionsContext.Provider value={value} {...props} />;

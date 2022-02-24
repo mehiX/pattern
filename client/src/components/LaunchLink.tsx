@@ -57,7 +57,8 @@ export default function LaunchLink(props: Props) {
     }
     resetError();
     deleteLinkToken(props.userId, null);
-    history.push(`/user/${props.userId}`);
+    // history.push(`/user/${props.userId}`);
+    history.push(`/add-account/2`);
   };
 
   const onExit = async (

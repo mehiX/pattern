@@ -2,8 +2,11 @@ import React from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
+import Moment from 'react-moment';
+import 'moment-timezone';
 
 import { UserPage, Landing, Sockets, OAuthLink, UserList } from './components';
+import { AddBankAccount } from './components';
 import { AccountsProvider } from './services/accounts';
 import { InstitutionsProvider } from './services/institutions';
 import { ItemsProvider } from './services/items';
@@ -39,9 +42,11 @@ function App() {
                         <Sockets />
                         <Switch>
                           <Route exact path="/" component={Landing} />
-                          <Route path="/user/:userId" component={UserPage} />
+                          {/* <Route path="/user/:userId" component={UserPage} /> */}
                           <Route path="/oauth-link" component={OAuthLink} />
-                          <Route path="/admin" component={UserList} />
+                          <Route path="/add-account/:step" component={AddBankAccount} />
+                          <Route path="/add-account" component={AddBankAccount} />
+                          {/* <Route path="/admin" component={UserList} /> */}
                         </Switch>
                       </AssetsProvider>
                     </CurrentUserProvider>

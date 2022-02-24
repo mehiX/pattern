@@ -1,6 +1,9 @@
-import { useLink } from '../../../services';
+import { useLink, useTransactions } from '../../../services';
+import React, { useEffect, useState } from 'react';
+import Moment from 'react-moment';
 import Input from '../../Elements/Input';
 import StepsHandler from './StepsHandler';
+import { TransactionsTable } from '../..';
 
 const dummydata = [
   {
@@ -24,40 +27,87 @@ const dummydata = [
 ];
 
 const ThirdStep = (props: any) => {
-  const handleChangeChk = () => {
-    console.log('ciao');
+  const [transactions, setTransactions] = useState<any[]>([]);
+  const [transactionsShown, setTransactionsShown] = useState(false);
+  const {
+    transactionsByAccount,
+    getTransactionsByAccount,
+    setOwnTransactionById,
+    deleteOwnTransactionById,
+  } = useTransactions();
+
+  // const { id } =  '3'; //props.account;
+
+  // @@@@@TODO@@@@@: I am using the ID number 1. replace it. JUST FOR TESTING!
+  useEffect(() => {
+    getTransactionsByAccount(3);
+  }, [getTransactionsByAccount, transactionsByAccount, 3]);
+
+  useEffect(() => {
+    setTransactions(transactionsByAccount[3] || []);
+  }, [transactionsByAccount, 3]);
+
+  ///////////////////////////////////////////////////////
+
+  const handleChangeChk = (id: number, target: any) => {
+    const checked = target.checked;
+    if (checked) {
+      // User just checked the input: add own transaction
+      setOwnTransactionById(id);
+    } else {
+      // User just unckecked the input: remove own transaction
+      deleteOwnTransactionById(id);
+    }
+    console.log(target.checked);
+    console.log(id);
   };
+
+  console.log(transactions);
+
   return (
-    <div className="StepWizardStep">
+    <div className="StepWizardStep add-bank-account third-step">
       <h1>Select transactions related to savings for -bank-</h1>
       <p>
         Selecting transactions related to your saving acount is needed to show
         you correct insights
       </p>
 
-      {dummydata.map(element => (
-        <div className="inputWrapper checkboxWrapper">
-          <div>
-            <input
-              type="checkbox"
-              id={'chekbox_' + element.id}
-              defaultChecked={false}
-              onChange={handleChangeChk}
-            />
-            <label htmlFor={'chekbox_' + element.id}>{element.title}</label>
-          </div>
-          <span>
-            {element.amount.type === 'positive' ? '+' : '-'}
-            {element.amount.amount}
-          </span>
-          <span>
-            {element.datetime}
-          </span>
-        </div>
-      ))}
+      {transactions.map(
+        element =>
+          element.name.toLowerCase().includes('dinther') && (
+            <div className="inputWrapper checkboxWrapper">
+              <div className="nameWrapper">
+                <input
+                  type="checkbox"
+                  id={'chekbox_' + element.id}
+                  defaultChecked={false}
+                  onChange={(event: any) => {
+                    handleChangeChk(element.id, event.target as any);
+                  }}
+                />
+                <label htmlFor={'chekbox_' + element.id} title={element.name}>
+                  {element.name.length > 60
+                    ? element.name.slice(0, 60) + '...'
+                    : element.name}
+                </label>
+              </div>
+              <div className="amountWrapper">
+                <span>
+                  {element.amount.toLocaleString().includes('-') ? '' : '+'}
+                  {element.amount.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                  })}
+                </span>
+              </div>
+              <div>
+                <Moment format="YYYY MMM DD">{element.date}</Moment>
+              </div>
+            </div>
+          )
+      )}
 
       <div className="flex flex-centered inputWrapper" />
-      <StepsHandler amount={3} currentStep={1} goToStep={props.goToStep} />
+      <StepsHandler amount={3} currentStep={2} goToStep={props.goToStep} />
       <div className="flex flex-centered">
         <button
           className="button button-primary"

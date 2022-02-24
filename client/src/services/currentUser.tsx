@@ -78,7 +78,8 @@ export function CurrentUserProvider(props: any) {
         const { data: payload } = await apiGetLoginUser(username);
         if (payload != null) {
           dispatch({ type: 'SUCCESSFUL_GET', payload: payload[0] });
-          history.push(`/user/${payload[0].id}`);
+          // history.push(`/user/${payload[0].id}`);
+          history.push(`/`);
         } else {
           dispatch({ type: 'FAILED_GET' });
         }

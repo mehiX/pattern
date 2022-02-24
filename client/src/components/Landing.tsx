@@ -18,9 +18,9 @@ export default function Landing() {
     }
   }, [setCurrentUser, userState.newUser]);
 
-  const returnToCurrentUser = () => {
-    history.push(`/user/${userState.currentUser.id}`);
-  };
+  // const returnToCurrentUser = () => {
+  //   history.push(`/user/${userState.currentUser.id}`);
+  // };
 
   // get user form local storage
   const rawUser = localStorage.getItem('jubleeUser');

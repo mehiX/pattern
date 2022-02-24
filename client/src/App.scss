@@ -6,7 +6,7 @@ $threads-font-path: '~plaid-threads/fonts';
 $border: 1px solid $black200;
 $black: #414141;
 $mainGrey: #7f7f7f;
-$lightGrey: #c2c2c2;
+$lightGrey: #cecece;
 
 /*
 
@@ -614,17 +614,6 @@ stepWizard
     width: 35%;
     margin: auto;
 
-    &.checkboxWrapper {
-      width: 70%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-
-      &:not(:last-child) {
-        border-bottom: 1px solid $mainGrey;
-      }
-    }
 
     .currency {
       font-weight: 600;
@@ -637,14 +626,20 @@ stepWizard
   .stepHandlerWrapper {
     display: flex;
     justify-content: center;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
+    margin-top: 15px;
+
     .stepHandler {
-      width: 30px;
-      height: 30px;
+      width: 25px;
+      height: 25px;
       border-radius: 50%;
       margin: 10px;
       background-color: $lightGrey;
       cursor: pointer;
+
+      &.active {
+        background-color: $mainGrey;
+      }
 
       &:hover {
         background-color: $mainGrey;
@@ -668,6 +663,58 @@ stepWizard
 
   p {
     text-align: center;
+  }
+
+  &.add-bank-account {
+    &.third-step {
+      .checkboxWrapper {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+        padding: 10px 0px;
+
+        &:not(:last-child) {
+          border-bottom: 1px solid $lightGrey;
+        }
+
+        .nameWrapper {
+          width: 60%;
+          cursor: pointer;
+          label {
+            cursor: pointer;
+            font-size: 110%;
+          }
+        }
+
+        input[type=checkbox] {
+          /* Double-sized Checkboxes */
+          -ms-transform: scale(1.5);
+          /* IE */
+          -moz-transform: scale(1.5);
+          /* FF */
+          -webkit-transform: scale(1.5);
+          /* Safari and Chrome */
+          -o-transform: scale(1.5);
+          /* Opera */
+          transform: scale(1.5);
+          padding: 10px;
+          margin-right: 10px;
+
+        }
+
+      }
+
+      .amountWrapper {
+        min-width: 15%;
+        text-align: center;
+        span {
+          font-size: 18px;
+          font-weight: 500;
+        }
+      }
+    }
   }
 }
 

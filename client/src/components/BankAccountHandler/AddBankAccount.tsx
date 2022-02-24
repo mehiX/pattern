@@ -8,10 +8,11 @@ import TextInput from 'plaid-threads/TextInput';
 
 import StepWizard from 'react-step-wizard';
 
-const AddBankAccount = () => {
+const AddBankAccount = (props:any) => {
+  const initialStep = props.match ? (props.match.params.step ? props.match.params.step : 1) : 1;
   return (
     <div className="stepWizard">
-      <StepWizard>
+      <StepWizard initialStep={initialStep}>
         <FirstStep step="1" />
         <SecondStep step="2" />
         <ThirdStep step="3" />
