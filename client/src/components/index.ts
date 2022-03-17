@@ -29,5 +29,6 @@ export { default as StepsHandler } from './BankAccountHandler/Steps/StepsHandler
 export { default as FirstStep } from './BankAccountHandler/Steps/FirstStep';
 export { default as SecondStep } from './BankAccountHandler/Steps/SecondStep';
 export { default as ThirdStep } from './BankAccountHandler/Steps/ThirdStep';
+export { default as FourthStep } from './BankAccountHandler/Steps/FourthStep';
 // Elements
 export { default as Input } from './Elements/Input';

@@ -133,9 +133,9 @@ const UserPage = ({ match }: RouteComponentProps<RouteInfo>) => {
   document.getElementsByTagName('body')[0].style.overflow = 'auto'; // to override overflow:hidden from link pane
   return (
     <div>
-      <NavigationLink component={Link} to="/">
+      {/* <NavigationLink component={Link} to="/">
         BACK TO LOGIN
-      </NavigationLink>
+      </NavigationLink> */}
 
       {/* <Banner /> */}
       {linkTokens.error.error_code != null && (

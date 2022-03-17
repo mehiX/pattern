@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import Moment from 'react-moment';
 import 'moment-timezone';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { UserPage, Landing, Sockets, OAuthLink, UserList } from './components';
 import { AddBankAccount } from './components';

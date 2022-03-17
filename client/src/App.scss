@@ -20,6 +20,10 @@ body {
   color: $black
 }
 
+.flex-column {
+  flex-flow: column;
+}
+
 // .App {
 //   max-width: 131 * $unit;
 //    margin-right: auto;
@@ -577,10 +581,14 @@ ErrorMessage
     }
   }
 
-  &.logout-btn {
-    position: absolute;
-    top: 20px;
-    right: 20px;
+  &.button-secondary {
+    color: $black;
+    border: 1px solid $black;
+    background-color: white;
+
+    // &:focus {
+    //   background-color: $black;
+    // }
   }
 }
 
@@ -682,6 +690,7 @@ stepWizard
         .nameWrapper {
           width: 60%;
           cursor: pointer;
+
           label {
             cursor: pointer;
             font-size: 110%;
@@ -709,6 +718,7 @@ stepWizard
       .amountWrapper {
         min-width: 15%;
         text-align: center;
+
         span {
           font-size: 18px;
           font-weight: 500;
@@ -716,6 +726,23 @@ stepWizard
       }
     }
   }
+
+  .data-wrapper {
+    margin-top: 30px;
+    margin-bottom: 30px;
+
+    .list-title {
+      min-width: 180px;
+    }
+
+    .list-amount {
+      font-size: 22px;
+      color: #414141;
+      font-weight: 600;
+    }
+  }
+
+
 }
 
 /*
@@ -758,5 +785,18 @@ stepWizard
     font-size: 11px;
     opacity: 1;
     color: #404040;
+  }
+}
+
+/* USER LANGING */
+.logout-wrapper {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  margin: 10px 0px;
+
+  span {
+    margin-right: 10px;
+    font-size: 20px;
   }
 }

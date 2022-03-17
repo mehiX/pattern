@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FirstStep, SecondStep, ThirdStep } from '..';
-import { TestStepWizard } from '..';
+import { FirstStep, SecondStep, ThirdStep, FourthStep } from '..';
 import Modal from 'plaid-threads/Modal';
 import ModalBody from 'plaid-threads/ModalBody';
 import Button from 'plaid-threads/Button';
@@ -16,7 +15,7 @@ const AddBankAccount = (props:any) => {
         <FirstStep step="1" />
         <SecondStep step="2" />
         <ThirdStep step="3" />
-        <TestStepWizard step="4" />
+        <FourthStep step="4" />
       </StepWizard>
     </div>
   );

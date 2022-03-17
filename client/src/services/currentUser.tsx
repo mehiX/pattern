@@ -79,6 +79,7 @@ export function CurrentUserProvider(props: any) {
         if (payload != null) {
           dispatch({ type: 'SUCCESSFUL_GET', payload: payload[0] });
           // history.push(`/user/${payload[0].id}`);
+          console.log('qui');
           history.push(`/`);
         } else {
           dispatch({ type: 'FAILED_GET' });

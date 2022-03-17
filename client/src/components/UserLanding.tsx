@@ -81,6 +81,7 @@ const UserPage = () => {
   // set state user from data store
   useEffect(() => {
     setUser(usersById[userId] || {});
+    console.log('user', user);
   }, [usersById, userId]);
 
   useEffect(() => {
@@ -144,121 +145,142 @@ const UserPage = () => {
 
   // document.getElementsByTagName('body')[0].style.overflow = 'auto'; // to override overflow:hidden from link pane
   return (
-    <div>
-      <Logout />
+    <div className="container">
+      <div className="logout-wrapper">
+        <span>
+          Hi, {user.username}, welcome to <b>Jublee!</b>
+        </span>
+        <Logout />
+      </div>
 
       {token != null && token.length > 0 && (
         // Link (render for adding a bank) will not render unless there is a link token
         <LaunchLink token={token} userId={userId} itemId={null} />
       )}
-      {numOfItems === 0 && <AddBankAccount />}
-      {numOfItems !== 0 && (
+      {/* {numOfItems === 0 && <AddBankAccount />} */}
+
+      <div>
         <div>
-          <div>
-            <NavigationLink component={Link} to="/">
+          {/* <NavigationLink component={Link} to="/">
               BACK TO LOGIN
-            </NavigationLink>
+            </NavigationLink> */}
 
-            {linkTokens.error.error_code != null && (
-              <Callout warning>
-                <div>
-                  Unable to fetch link_token: please make sure your backend
-                  server is running and that your .env file has been configured
-                  correctly.
-                </div>
-                <div>
-                  Error Code: <code>{linkTokens.error.error_code}</code>
-                </div>
-                <div>
-                  Error Type: <code>{linkTokens.error.error_type}</code>{' '}
-                </div>
-                <div>Error Message: {linkTokens.error.error_message}</div>
-              </Callout>
-            )}
-            <UserCard
-              user={user}
-              userId={userId}
-              removeButton={false}
-              linkButton
-            />
-            {numOfItems === 0 && <ErrorMessage />}
-            {numOfItems > 0 && transactions.length === 0 && (
-              <div className="loading">
-                <LoadingSpinner />
-                <LoadingCallout />
+          {linkTokens.error.error_code != null && (
+            <Callout warning>
+              <div>
+                Unable to fetch link_token: please make sure your backend server
+                is running and that your .env file has been configured
+                correctly.
               </div>
-            )}
-            {numOfItems > 0 && transactions.length > 0 && (
-              <>
-                <NetWorth
-                  accounts={accounts}
-                  numOfItems={numOfItems}
-                  personalAssets={assets}
-                  userId={userId}
-                  assetsOnly={false}
-                />
-                <SpendingInsights
-                  numOfItems={numOfItems}
-                  transactions={transactions}
-                />
-              </>
-            )}
-            {numOfItems === 0 &&
-              transactions.length === 0 &&
-              assets.length > 0 && (
-                <>
-                  <NetWorth
-                    accounts={accounts}
-                    numOfItems={numOfItems}
-                    personalAssets={assets}
-                    userId={userId}
-                    assetsOnly
-                  />
-                </>
-              )}
-            {numOfItems > 0 && (
-              <>
-                <div className="item__header">
-                  <div>
-                    <h2 className="item__header-heading">
-                      {`${items.length} ${pluralize(
-                        'Bank',
-                        items.length
-                      )} Linked`}
-                    </h2>
-                    {!!items.length && (
-                      <p className="item__header-subheading">
-                        Below is a list of all your connected banks. Click on a
-                        bank to view its associated accounts.
-                      </p>
-                    )}
-                  </div>
+              <div>
+                Error Code: <code>{linkTokens.error.error_code}</code>
+              </div>
+              <div>
+                Error Type: <code>{linkTokens.error.error_type}</code>{' '}
+              </div>
+              <div>Error Message: {linkTokens.error.error_message}</div>
+            </Callout>
+          )}
+          {/* <UserCard
+            user={user}
+            userId={userId}
+            removeButton={false}
+            linkButton
+          /> */}
+          {numOfItems === 0 && (
+            <div className="mt-5 d-flex justify-content-center align-items-center flex-column">
+              <h4>
+                You didn't connect yet any <b>checking account</b>!
+              </h4>
+              <p className="text-centered">
+                To start using Jublee, please add a checking account.
+              </p>
+              <button className="button button-primary" onClick={initiateLink}>
+                Start
+              </button>
+            </div>
+          )}
+          {numOfItems > 0 && transactions.length > 0 && (
+            <SpendingInsights
+              numOfItems={numOfItems}
+              transactions={transactions}
+            />
+          )}
+          {/* {numOfItems === 0 && <ErrorMessage />} */}
+          {numOfItems > 0 && transactions.length === 0 && (
+            <div className="loading">
+              <LoadingSpinner />
+              <LoadingCallout />
+            </div>
+          )}
+          {/* {numOfItems > 0 && transactions.length > 0 && (
+            <>
+              <NetWorth
+                accounts={accounts}
+                numOfItems={numOfItems}
+                personalAssets={assets}
+                userId={userId}
+                assetsOnly={false}
+              />
+              <SpendingInsights
+                numOfItems={numOfItems}
+                transactions={transactions}
+              />
+            </>
+          )} */}
+          {numOfItems === 0 && transactions.length === 0 && assets.length > 0 && (
+            <>
+              <NetWorth
+                accounts={accounts}
+                numOfItems={numOfItems}
+                personalAssets={assets}
+                userId={userId}
+                assetsOnly
+              />
+            </>
+          )}
+          {numOfItems > 0 && (
+            <>
+              <div className="item__header">
+                <div>
+                  <h2 className="item__header-heading">
+                    {`${items.length} ${pluralize(
+                      'Bank',
+                      items.length
+                    )} Linked`}
+                  </h2>
+                  {!!items.length && (
+                    <p className="item__header-subheading">
+                      Below is a list of all your connected banks. Click on a
+                      bank to view its associated accounts.
+                    </p>
+                  )}
+                </div>
 
-                  <Button
-                    large
-                    inline
-                    className="add-account__button"
-                    onClick={initiateLink}
-                  >
-                    Add another bank
-                  </Button>
+                <Button
+                  large
+                  inline
+                  className="add-account__button"
+                  onClick={initiateLink}
+                >
+                  Add another bank
+                </Button>
 
-                  {/* {token != null && token.length > 0 && (
+                {/* {token != null && token.length > 0 && (
                     // Link will not render unless there is a link token
                     <LaunchLink token={token} userId={userId} itemId={null} />
                   )} */}
+              </div>
+              <ErrorMessage />
+              {items.map(item => (
+                <div id="itemCards" key={item.id}>
+                  <ItemCard item={item} userId={userId} />
                 </div>
-                <ErrorMessage />
-                {items.map(item => (
-                  <div id="itemCards" key={item.id}>
-                    <ItemCard item={item} userId={userId} />
-                  </div>
-                ))}
-              </>
-            )}
-          </div>
+              ))}
+            </>
+          )}
         </div>
-      )}
+      </div>
     </div>
   );
 };
