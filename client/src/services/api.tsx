@@ -59,6 +59,12 @@ export const getAccountsByItem = (itemId: number) =>
 export const getAccountsByUser = (userId: number) =>
   api.get(`/users/${userId}/accounts`);
 
+// savings accounts
+export const getSavingAccountsByItem = (itemId: number) =>
+  api.get(`/items/${itemId}/accounts`);
+export const getSavingAccountsByUser = (userId: number) =>
+  api.get(`/users/${userId}/accounts`);
+
 // transactions
 export const getTransactionsByAccount = (accountId: number) =>
   api.get(`/accounts/${accountId}/transactions`);

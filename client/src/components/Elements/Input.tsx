@@ -6,6 +6,8 @@ const Input = (props: {
   labelName: string;
   inputType: string;
   step?: string;
+  placeholder?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
 }) => {
   return (
     <div className="floating-label-group">
@@ -16,18 +18,11 @@ const Input = (props: {
         autoFocus
         required
         step={props.step}
+        placeholder={props.placeholder}
+        onChange={props.onChange}
       />
       <label className="floating-label">{props.labelName}</label>
     </div>
-    // <div className="floating-label-group">
-    //   <input
-    //     type="number"
-    //     placeholder="Add number"
-    //     onChange={event => console.log('value changed!')}
-    //   />
-    //   <label className="floating-label"> Add your saving </label>
-    /* <p>// place for errors</p> */
-    // </div>
   );
 };
 

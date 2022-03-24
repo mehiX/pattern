@@ -22,10 +22,14 @@ export { default as NetWorth } from './NetWorth';
 export { default as Asset } from './Asset';
 export { default as LoadingCallout } from './LoadingCallout';
 export { default as ErrorMessage } from './ErrorMessage';
+
+export { default as AddSavingAccount } from './AddSavingAccount';
 // BankAccountHandler
 export { default as AddBankAccount } from './BankAccountHandler/AddBankAccount';
 export { default as TestStepWizard } from './BankAccountHandler/TestStepWizard';
-export { default as StepsHandler } from './BankAccountHandler/Steps/StepsHandler';
+export {
+  default as StepsHandler,
+} from './BankAccountHandler/Steps/StepsHandler';
 export { default as FirstStep } from './BankAccountHandler/Steps/FirstStep';
 export { default as SecondStep } from './BankAccountHandler/Steps/SecondStep';
 export { default as ThirdStep } from './BankAccountHandler/Steps/ThirdStep';

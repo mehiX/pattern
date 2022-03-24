@@ -41,6 +41,16 @@ export interface AccountType {
   created_at: string;
   updated_at: string;
 }
+export interface SavingAccountType {
+  id: number;
+  item_id: number;
+  user_id: number;
+  name: string;
+  balance: number;
+  iban: string;
+  bank_name: string;
+  created_at: string;
+}
 export interface TransactionType {
   id: number;
   account_id: number;

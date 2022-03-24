@@ -27,7 +27,7 @@ export default function Landing() {
   const jubleeUser = (rawUser && rawUser !== '{}') ? JSON.parse(rawUser) : null;
 
   return (
-    <div>
+    <>
       {!jubleeUser && (
         <div>
           <div>
@@ -40,6 +40,6 @@ export default function Landing() {
         </div>
       )}
       {jubleeUser && <UserLanding />}
-    </div>
+    </>
   );
 }

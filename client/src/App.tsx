@@ -8,6 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { UserPage, Landing, Sockets, OAuthLink, UserList } from './components';
 import { AddBankAccount } from './components';
+import { AddSavingAccount } from './components';
 import { AccountsProvider } from './services/accounts';
 import { InstitutionsProvider } from './services/institutions';
 import { ItemsProvider } from './services/items';
@@ -47,6 +48,7 @@ function App() {
                           <Route path="/oauth-link" component={OAuthLink} />
                           <Route path="/add-account/:step" component={AddBankAccount} />
                           <Route path="/add-account" component={AddBankAccount} />
+                          <Route path="/add-saving-account" component={AddSavingAccount} />
                           {/* <Route path="/admin" component={UserList} /> */}
                         </Switch>
                       </AssetsProvider>

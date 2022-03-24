@@ -4,7 +4,7 @@ import Chart from 'react-apexcharts';
 import { currencyFilter, pluralize } from '../util';
 import { CategoriesChart } from '.';
 import { TransactionType } from './types';
-import { transactionsForChart } from '../data/dummyData';
+// import { transactionsForChart } from '../data/dummyData';
 import { Helpers } from '../services/helpers';
 
 interface Props {

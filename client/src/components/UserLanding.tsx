@@ -5,10 +5,17 @@ import NavigationLink from 'plaid-threads/NavigationLink';
 import LoadingSpinner from 'plaid-threads/LoadingSpinner';
 import Callout from 'plaid-threads/Callout';
 import Button from 'plaid-threads/Button';
+import Table from 'react-bootstrap/Table';
 import { FirstStep, Logout } from '.';
 import { AddBankAccount } from '.';
 
-import { RouteInfo, ItemType, AccountType, AssetType } from './types';
+import {
+  RouteInfo,
+  ItemType,
+  AccountType,
+  AssetType,
+  SavingAccountType,
+} from './types';
 import {
   useItems,
   useAccounts,
@@ -17,6 +24,7 @@ import {
   useAssets,
   useLink,
   useCurrentUser,
+  useSavingAccounts,
 } from '../services';
 
 import { pluralize } from '../util';
@@ -40,12 +48,15 @@ const UserPage = () => {
   const [items, setItems] = useState<ItemType[]>([]);
   const [token, setToken] = useState('');
   const [numOfItems, setNumOfItems] = useState(0);
+  const [savingAccountsNumber, setSavingAccountsNumber] = useState(0);
   const [transactions, setTransactions] = useState([]);
   const [accounts, setAccounts] = useState<AccountType[]>([]);
+  const [savingAccounts, setSavingsAccount] = useState<SavingAccountType[]>([]);
   const [assets, setAssets] = useState<AssetType[]>([]);
 
   const { getTransactionsByUser, transactionsByUser } = useTransactions();
   const { getAccountsByUser, accountsByUser } = useAccounts();
+  const { getSavingAccountsByUser, savingAccountsByUser } = useSavingAccounts();
   const { assetsByUser, getAssetsByUser } = useAssets();
   const { usersById, getUserById } = useUsers();
   const { itemsByUser, getItemsByUser } = useItems();
@@ -81,7 +92,6 @@ const UserPage = () => {
   // set state user from data store
   useEffect(() => {
     setUser(usersById[userId] || {});
-    console.log('user', user);
   }, [usersById, userId]);
 
   useEffect(() => {
@@ -139,6 +149,17 @@ const UserPage = () => {
     setAccounts(accountsByUser[userId] || []);
   }, [accountsByUser, userId]);
 
+  //   // update data store with the user's savings accounts
+  // useEffect(() => {
+  //   getSavingAccountsByUser(userId);
+  // setSavingAccountsNumber()
+  // }, [getSavingAccountsByUser, userId]);
+
+  // useEffect(() => {
+  //   // setSavingsAccount(savingAccountsByUser ? savingAccountsByUser[userId] : []);
+  //   setSavingsAccount(savingAccountsByUser[userId] || []);
+  // }, [savingAccountsByUser, userId]);
+
   useEffect(() => {
     setToken(linkTokens.byUser[userId]);
   }, [linkTokens, userId, numOfItems]);
@@ -188,7 +209,7 @@ const UserPage = () => {
             linkButton
           /> */}
           {numOfItems === 0 && (
-            <div className="mt-5 d-flex justify-content-center align-items-center flex-column">
+            <div className="jublee-container jublee-container-margin-top jublee-container-flex">
               <h4>
                 You didn't connect yet any <b>checking account</b>!
               </h4>
@@ -198,6 +219,17 @@ const UserPage = () => {
               <button className="button button-primary" onClick={initiateLink}>
                 Start
               </button>
+            </div>
+          )}
+          {savingAccountsNumber === 0 && (
+            <div className="jublee-container jublee-container-margin-top jublee-container-flex">
+              <h4>
+                You didn't connect yet any <b>savings account</b>!
+              </h4>
+              <p className="text-centered">
+                To start using Jublee, please add a saving account.
+              </p>
+              <Link to="/add-saving-account" className="button button-primary">Start</Link>
             </div>
           )}
           {numOfItems > 0 && transactions.length > 0 && (
@@ -251,7 +283,7 @@ const UserPage = () => {
                   </h2>
                   {!!items.length && (
                     <p className="item__header-subheading">
-                      Below is a list of all your connected banks. Click on a
+                      Belown is a list of all your connected banks. Click on a
                       bank to view its associated accounts.
                     </p>
                   )}
@@ -272,6 +304,34 @@ const UserPage = () => {
                   )} */}
               </div>
               <ErrorMessage />
+              <div className="mb-5">
+                <Table striped bordered hover>
+                  <thead>
+                    <tr>
+                      <th>Account</th>
+                      <th>Type</th>
+                      <th>Subtype</th>
+                      <th>Balance</th>
+                      <th>Transactions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {accounts.map(account => (
+                      // <div id="itemCards" key={item.id}>
+                      //   <ItemCard item={item} userId={userId} />
+                      // </div>
+                      <tr>
+                        <td>{account.mask}</td>
+                        <td>{account.type}</td>
+                        <td>{account.subtype}</td>
+                        <td>{account.current_balance}</td>
+                        <td>-</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              </div>
+
               {items.map(item => (
                 <div id="itemCards" key={item.id}>
                   <ItemCard item={item} userId={userId} />

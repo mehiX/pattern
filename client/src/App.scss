@@ -751,7 +751,7 @@ stepWizard
 .floating-label-group {
   position: relative;
   width: 100%;
-  margin-top: 15px;
+  margin-top: 20px;
   margin-bottom: 25px;
 
   .floating-label {
@@ -771,18 +771,22 @@ stepWizard
     border-bottom: 1px solid $mainGrey;
     outline: none;
     padding-top: 8px;
-    font-size: 22px;
+    font-size: 17px;
     color: $black;
     font-weight: 600;
+  }
+
+  .floating-label {
+    color: transparent;
   }
 
   input:focus~.floating-label,
   input:not(:focus):valid~.floating-label {
     outline: none;
-    top: -15px;
+    top: -20px;
     bottom: 0px;
     left: 0px;
-    font-size: 11px;
+    font-size: 14px;
     opacity: 1;
     color: #404040;
   }
@@ -798,5 +802,22 @@ stepWizard
   span {
     margin-right: 10px;
     font-size: 20px;
+  }
+}
+
+.jublee-container {
+  padding: 20px;
+  border: 1px solid $lightGrey;
+  border-radius: 8px;
+
+  &.jublee-container-margin-top {
+    margin-top: 80px;
+  }
+
+  &.jublee-container-flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
   }
 }
