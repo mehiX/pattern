@@ -1,17 +1,12 @@
-name: Build docker
+name: Build docker for Server
 
 on:
   push:
 
 env:
   REGISTRY: ghcr.io
-  PLAID_CLIENT_ID: ${{ secrets.PLAID_CLIENT_ID }}
-  PLAID_SECRET_DEVELOPMENT: ${{ secrets.PLAID_SECRET_DEVELOPMENT }}
-  PLAID_ENV: development
-  PLAID_PRODUCTS: auth,transactions
-  PLAID_COUNTRY_CODES: NL
-  IMAGE_NAME_CLIENT: ${{ github.repository }}/pattern-client
-  IMAGE_NAME_SERVER: ${{ github.repository }}/pattern-server
+  IMAGE_NAME: ${{ github.repository }}/pattern-server
+  CONTEXT: ./server/
 
 jobs:
   build-images:
@@ -31,16 +26,16 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.GHCR_ACCESS_TOKEN }}
 
-    - name: Client - Extract metadata (tags, labels) for Docker
-      id: meta-client
+    - name: Extract metadata (tags, labels) for Docker
+      id: meta
       uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
       with:
-        images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_CLIENT }}
+        images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-    - name: Client - Build and push Docker image
+    - name: Build and push Docker image
       uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
       with:
-        context: ./client/
+        context: ${{ env.CONTEXT }}
         push: true
-        tags: ${{ steps.meta-client.outputs.tags }}
-        labels: ${{ steps.meta-client.outputs.labels }}
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
