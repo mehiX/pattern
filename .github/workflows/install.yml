@@ -76,6 +76,9 @@ jobs:
     needs: [build-client, build-server]
     
     steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
     - name: Deploy to Server
       uses: easingthemes/ssh-deploy@main
       env:
@@ -86,3 +89,16 @@ jobs:
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: /home/cibot/
           EXCLUDE: "/dist/, /node_modules/"
+
+  run-server:
+    runs-on: ubuntu-latest
+    needs: install-server
+
+    steps:
+    - name: make up via ssh
+      uses: garygrossgarten/github-action-ssh@release
+      with:
+        command: make up
+        host: ${{ secrets.REMOTE_HOST }}
+        username: ${{ secrets.REMOTE_USER }}
+        privateKey: ${{ secrets.PLANFI01_CIBOT_KEY}}
