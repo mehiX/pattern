@@ -98,7 +98,7 @@ jobs:
     - name: make up via ssh
       uses: garygrossgarten/github-action-ssh@release
       with:
-        command: cp /etc/envs/dev.env /home/${{ secrets.REMOTE_USER }}/app-pattern/.env && sudo make start
+        command: cd /home/${{ secrets.REMOTE_USER }}/app-pattern/ && cp /etc/envs/dev.env .env && sudo make start
         host: ${{ secrets.REMOTE_HOST }}
         username: ${{ secrets.REMOTE_USER }}
         privateKey: ${{ secrets.PLANFI01_CIBOT_KEY}}
