@@ -87,7 +87,7 @@ jobs:
           SOURCE: ""
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
-          TARGET: /home/cibot/app-pattern/
+          TARGET: /home/${{ secrets.REMOTE_USER }}/app-pattern/
           EXCLUDE: "/dist/, /node_modules/"
 
   run-server:
@@ -98,7 +98,7 @@ jobs:
     - name: make up via ssh
       uses: garygrossgarten/github-action-ssh@release
       with:
-        command: cp /etc/envs/dev.env ~/.env && make start
+        command: cp /etc/envs/dev.env /home/${{ secrets.REMOTE_USER }}/app-pattern/.env && sudo make start
         host: ${{ secrets.REMOTE_HOST }}
         username: ${{ secrets.REMOTE_USER }}
         privateKey: ${{ secrets.PLANFI01_CIBOT_KEY}}
