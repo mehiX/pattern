@@ -84,10 +84,10 @@ jobs:
       env:
           SSH_PRIVATE_KEY: ${{ secrets.PLANFI01_CIBOT_KEY }}
           ARGS: "-rltgoDzvO --delete"
-          SOURCE: "docker-compose.yml, Makefile, database/"
+          SOURCE: ""
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
-          TARGET: /home/cibot/
+          TARGET: /home/cibot/app-pattern/
           EXCLUDE: "/dist/, /node_modules/"
 
   run-server:
