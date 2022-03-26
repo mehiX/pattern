@@ -84,7 +84,7 @@ jobs:
       env:
           SSH_PRIVATE_KEY: ${{ secrets.PLANFI01_CIBOT_KEY }}
           ARGS: "-rltgoDzvO --delete"
-          SOURCE: "docker-compose.yml"
+          SOURCE: "docker-compose.yml, Makefile, database"
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: /home/cibot/
@@ -98,7 +98,7 @@ jobs:
     - name: make up via ssh
       uses: garygrossgarten/github-action-ssh@release
       with:
-        command: make up
+        command: cp /etc/envs/dev.env ~/.env && make start
         host: ${{ secrets.REMOTE_HOST }}
         username: ${{ secrets.REMOTE_USER }}
         privateKey: ${{ secrets.PLANFI01_CIBOT_KEY}}
