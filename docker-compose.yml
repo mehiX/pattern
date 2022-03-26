@@ -20,7 +20,7 @@ services:
 
   server:
     build: ./server
-    image: plaidinc/pattern-server:1.0.7
+    image: ghcr.io/mehix/pattern/pattern-server:1.0.7
     ports:
       - 5000:5000
     environment:
@@ -48,7 +48,7 @@ services:
 
   client:
     build: ./client
-    image: plaidinc/pattern-client:1.0.7
+    image: ghcr.io/mehix/pattern/pattern-client:1.0.7
     ports:
       - 3001:3001
     environment:
