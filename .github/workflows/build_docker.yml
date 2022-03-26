@@ -5,6 +5,11 @@ on:
 
 env:
   REGISTRY: ghcr.io
+  PLAID_CLIENT_ID: ${{ secrets.PLAID_CLIENT_ID }}
+  PLAID_SECRET_DEVELOPMENT: ${{ secrets.PLAID_SECRET_DEVELOPMENT }}
+  PLAID_ENV: development
+  PLAID_PRODUCTS: auth,transactions
+  PLAID_COUNTRY_CODES: NL
 
 jobs:
   build-images:
