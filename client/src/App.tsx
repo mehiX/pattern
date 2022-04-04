@@ -9,6 +9,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { UserPage, Landing, Sockets, OAuthLink, UserList } from './components';
 import { AddBankAccount } from './components';
 import { AddSavingAccount } from './components';
+import { SetOwnTransactions } from './components';
 import { AccountsProvider } from './services/accounts';
 import { InstitutionsProvider } from './services/institutions';
 import { ItemsProvider } from './services/items';
@@ -20,14 +21,16 @@ import { AssetsProvider } from './services/assets';
 import { ErrorsProvider } from './services/errors';
 
 import './App.scss';
+import setOwnTransactions from './components/SetOwnTransactions';
 
 function App() {
   toast.configure({
-    autoClose: 8000,
-    draggable: false,
-    toastClassName: 'box toast__background',
-    bodyClassName: 'toast__body',
-    hideProgressBar: true,
+    position: 'top-right',
+    autoClose: 6000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
   });
 
   return (
@@ -46,9 +49,22 @@ function App() {
                           <Route exact path="/" component={Landing} />
                           {/* <Route path="/user/:userId" component={UserPage} /> */}
                           <Route path="/oauth-link" component={OAuthLink} />
-                          <Route path="/add-account/:step" component={AddBankAccount} />
-                          <Route path="/add-account" component={AddBankAccount} />
-                          <Route path="/add-saving-account" component={AddSavingAccount} />
+                          <Route
+                            path="/add-account/:step"
+                            component={AddBankAccount}
+                          />
+                          <Route
+                            path="/add-account"
+                            component={AddBankAccount}
+                          />
+                          <Route
+                            path="/add-saving-account"
+                            component={AddSavingAccount}
+                          />
+                          <Route
+                            path="/set-own-transactions/:id"
+                            component={setOwnTransactions}
+                          />
                           {/* <Route path="/admin" component={UserList} /> */}
                         </Switch>
                       </AssetsProvider>

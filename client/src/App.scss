@@ -5,6 +5,7 @@ $threads-font-path: '~plaid-threads/fonts';
 // variables
 $border: 1px solid $black200;
 $black: #414141;
+$darkBlack: #353535;
 $mainGrey: #7f7f7f;
 $lightGrey: #cecece;
 
@@ -24,18 +25,19 @@ body {
   flex-flow: column;
 }
 
-// .App {
-//   max-width: 131 * $unit;
-//    margin-right: auto;
-//    margin-left: auto;
-//    padding: 10 * $unit 5 * $unit;
-// }
-
 /*
 
 shared styles
 
 */
+.smaller-text {
+  font-size: 90%;
+
+  &.symbol {
+    margin-right: 6px;
+  }
+}
+
 .bottom-border-content {
   overflow: hidden;
   border-bottom: 1px solid $black1000;
@@ -218,6 +220,8 @@ Item overview
   justify-content: space-between;
   align-items: center;
   margin: 3 * $unit 0;
+  margin-top: 80px;
+  margin-bottom: 20px;
 }
 
 .item__header-heading {
@@ -572,12 +576,22 @@ ErrorMessage
   cursor: pointer;
   // width: 100%;
 
+  &.small {
+    padding: 3px, 8px;
+    font-size: 13px;
+  }
+
   &.button-primary {
     color: white;
     background-color: $black;
 
     &:focus {
-      background-color: $black;
+      background-color: $darkBlack;
+      transform: scale(0.95);
+    }
+
+    &:hover {
+      background-color: $darkBlack;
     }
   }
 
@@ -673,60 +687,6 @@ stepWizard
     text-align: center;
   }
 
-  &.add-bank-account {
-    &.third-step {
-      .checkboxWrapper {
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 10px;
-        padding: 10px 0px;
-
-        &:not(:last-child) {
-          border-bottom: 1px solid $lightGrey;
-        }
-
-        .nameWrapper {
-          width: 60%;
-          cursor: pointer;
-
-          label {
-            cursor: pointer;
-            font-size: 110%;
-          }
-        }
-
-        input[type=checkbox] {
-          /* Double-sized Checkboxes */
-          -ms-transform: scale(1.5);
-          /* IE */
-          -moz-transform: scale(1.5);
-          /* FF */
-          -webkit-transform: scale(1.5);
-          /* Safari and Chrome */
-          -o-transform: scale(1.5);
-          /* Opera */
-          transform: scale(1.5);
-          padding: 10px;
-          margin-right: 10px;
-
-        }
-
-      }
-
-      .amountWrapper {
-        min-width: 15%;
-        text-align: center;
-
-        span {
-          font-size: 18px;
-          font-weight: 500;
-        }
-      }
-    }
-  }
-
   .data-wrapper {
     margin-top: 30px;
     margin-bottom: 30px;
@@ -768,12 +728,17 @@ stepWizard
     width: 100%;
     height: 35px;
     border: none;
-    border-bottom: 1px solid $mainGrey;
+    border-bottom: 1px solid $lightGrey;
     outline: none;
     padding-top: 8px;
     font-size: 17px;
     color: $black;
     font-weight: 600;
+  }
+
+  input:focus {
+    border-color: #000000 !important;
+    box-shadow: none;
   }
 
   .floating-label {
@@ -809,6 +774,7 @@ stepWizard
   padding: 20px;
   border: 1px solid $lightGrey;
   border-radius: 8px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 
   &.jublee-container-margin-top {
     margin-top: 80px;
@@ -820,4 +786,105 @@ stepWizard
     align-items: center;
     flex-direction: column;
   }
+}
+
+/* Tables */
+table {
+  thead {
+    tr {
+      border-color: $black;
+
+      th {
+        background-color: $black !important;
+        border-color: $black;
+        color: white;
+
+      }
+    }
+  }
+
+  th,
+  td {
+    &.actions-column {
+      width: 15%;
+      text-align: center;
+    }
+  }
+
+  td {
+    vertical-align: middle;
+  }
+}
+
+/* SET OWN TRANSACTIONS */
+.set-own-transactions {
+  .checkboxWrapper {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 10px 0px;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid $lightGrey;
+    }
+
+    .nameWrapper {
+      width: 60%;
+      cursor: pointer;
+
+      label {
+        cursor: pointer;
+        font-size: 110%;
+      }
+    }
+
+    input[type=checkbox] {
+      /* Double-sized Checkboxes */
+      -ms-transform: scale(1.5);
+      /* IE */
+      -moz-transform: scale(1.5);
+      /* FF */
+      -webkit-transform: scale(1.5);
+      /* Safari and Chrome */
+      -o-transform: scale(1.5);
+      /* Opera */
+      transform: scale(1.5);
+      padding: 10px;
+      margin-right: 10px;
+
+    }
+
+  }
+
+  .amountWrapper {
+    min-width: 15%;
+    text-align: center;
+
+    span {
+      font-size: 18px;
+      font-weight: 500;
+    }
+  }
+}
+
+/* BACK LINK */
+.backLink {
+  padding: 18px;
+
+  a {
+    display: flex;
+    align-items: center;
+
+    img {
+      width: 16px;
+    }
+
+    span {
+      font-weight: 600;
+      margin-left: 10px;
+    }
+  }
+
 }

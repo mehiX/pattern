@@ -144,6 +144,7 @@ function reducer(state: AccountsState, action: AccountsAction) {
  */
 export default function useAccounts() {
   const context = useContext(AccountsContext);
+
   if (!context) {
     throw new Error(`useAccounts must be used within an AccountsProvider`);
   }

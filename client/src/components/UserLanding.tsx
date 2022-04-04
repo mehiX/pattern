@@ -5,9 +5,9 @@ import NavigationLink from 'plaid-threads/NavigationLink';
 import LoadingSpinner from 'plaid-threads/LoadingSpinner';
 import Callout from 'plaid-threads/Callout';
 import Button from 'plaid-threads/Button';
-import Table from 'react-bootstrap/Table';
 import { FirstStep, Logout } from '.';
 import { AddBankAccount } from '.';
+import savingsAccountsImport from '../data/dummyData';
 
 import {
   RouteInfo,
@@ -39,6 +39,7 @@ import {
   LoadingCallout,
   ErrorMessage,
 } from '.';
+import { Table } from 'react-bootstrap';
 
 // provides view of user's net worth, spending by category and allows them to explore
 // account and transactions details for linked items
@@ -51,7 +52,10 @@ const UserPage = () => {
   const [savingAccountsNumber, setSavingAccountsNumber] = useState(0);
   const [transactions, setTransactions] = useState([]);
   const [accounts, setAccounts] = useState<AccountType[]>([]);
-  const [savingAccounts, setSavingsAccount] = useState<SavingAccountType[]>([]);
+  // const [savingAccounts, setSavingsAccount] = useState<SavingAccountType[]>([]);
+  const [savingAccounts, setSavingsAccount] = useState<Array<any>>(
+    savingsAccountsImport
+  );
   const [assets, setAssets] = useState<AssetType[]>([]);
 
   const { getTransactionsByUser, transactionsByUser } = useTransactions();
@@ -149,7 +153,13 @@ const UserPage = () => {
     setAccounts(accountsByUser[userId] || []);
   }, [accountsByUser, userId]);
 
-  //   // update data store with the user's savings accounts
+  // update data store with the user's savings accounts
+  useEffect(() => {
+    // getSavingAccountsByUser(userId);
+    setSavingsAccount(savingsAccountsImport);
+    setSavingAccountsNumber(savingsAccountsImport.length);
+  }, [getSavingAccountsByUser, userId, savingsAccountsImport]);
+
   // useEffect(() => {
   //   getSavingAccountsByUser(userId);
   // setSavingAccountsNumber()
@@ -229,7 +239,9 @@ const UserPage = () => {
               <p className="text-centered">
                 To start using Jublee, please add a saving account.
               </p>
-              <Link to="/add-saving-account" className="button button-primary">Start</Link>
+              <Link to="/add-saving-account" className="button button-primary">
+                Start
+              </Link>
             </div>
           )}
           {numOfItems > 0 && transactions.length > 0 && (
@@ -292,10 +304,10 @@ const UserPage = () => {
                 <Button
                   large
                   inline
-                  className="add-account__button"
+                  className="button button-primary"
                   onClick={initiateLink}
                 >
-                  Add another bank
+                  Add another checking account
                 </Button>
 
                 {/* {token != null && token.length > 0 && (
@@ -304,39 +316,61 @@ const UserPage = () => {
                   )} */}
               </div>
               <ErrorMessage />
-              <div className="mb-5">
-                <Table striped bordered hover>
-                  <thead>
-                    <tr>
-                      <th>Account</th>
-                      <th>Type</th>
-                      <th>Subtype</th>
-                      <th>Balance</th>
-                      <th>Transactions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {accounts.map(account => (
-                      // <div id="itemCards" key={item.id}>
-                      //   <ItemCard item={item} userId={userId} />
-                      // </div>
-                      <tr>
-                        <td>{account.mask}</td>
-                        <td>{account.type}</td>
-                        <td>{account.subtype}</td>
-                        <td>{account.current_balance}</td>
-                        <td>-</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </Table>
-              </div>
 
               {items.map(item => (
                 <div id="itemCards" key={item.id}>
                   <ItemCard item={item} userId={userId} />
                 </div>
               ))}
+            </>
+          )}
+
+          {savingAccounts && savingAccountsNumber > 0 && (
+            <>
+              <div className="item__header">
+                <div>
+                  <h2 className="item__header-heading">
+                    {savingAccountsNumber} Savings account linked
+                  </h2>
+                  <p className="item__header-subheading">
+                    Belown is a list of all your savings accounts.
+                  </p>
+                </div>
+                <Link to="/add-saving-account">
+                  <Button large inline className="button button-primary">
+                    Add another saving account
+                  </Button>
+                </Link>
+              </div>
+              <Table striped bordered hover>
+                <thead>
+                  <tr>
+                    <th />
+                    <th>Name</th>
+                    <th>Bank</th>
+                    <th>Iban</th>
+                    <th>Balance</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {savingAccounts.map((account, index) => {
+                    return (
+                      <tr>
+                        <td />
+                        <td>{account.name}</td>
+                        <td>{account.bank_name}</td>
+                        <td>{account.iban}</td>
+                        <td>
+                          <span className="smaller-text symbol">€</span>
+                          {account.balance.toLocaleString(undefined, {
+                            minimumFractionDigits: 2,
+                          })}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </Table>
             </>
           )}
         </div>

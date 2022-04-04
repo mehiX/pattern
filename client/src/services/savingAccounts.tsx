@@ -63,7 +63,6 @@ export const SavingAccountsProvider: React.FC<{ children: ReactNode }> = (
    * @desc Requests all Accounts that belong to an individual User.
    */
   const getSavingAccountsByUser = useCallback(async userId => {
-    console.log('dentro!')
     const { data: payload } = await apiGetSavingAccountsByUser(userId);
     dispatch({ type: 'SUCCESSFUL_GET', payload: payload });
   }, []);
@@ -146,8 +145,8 @@ function reducer(state: SavingAccountsState, action: SavingAccountsAction) {
  */
 export default function useSavingAccounts() {
   const context = useContext(savingAccountsContext);
-
   if (!context) {
+
     throw new Error(`useSavingAccounts must be used within an SavingccountsProvider`);
   }
 

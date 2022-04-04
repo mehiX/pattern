@@ -24,6 +24,7 @@ export { default as LoadingCallout } from './LoadingCallout';
 export { default as ErrorMessage } from './ErrorMessage';
 
 export { default as AddSavingAccount } from './AddSavingAccount';
+export { default as SetOwnTransactions } from './SetOwnTransactions';
 // BankAccountHandler
 export { default as AddBankAccount } from './BankAccountHandler/AddBankAccount';
 export { default as TestStepWizard } from './BankAccountHandler/TestStepWizard';
@@ -36,3 +37,4 @@ export { default as ThirdStep } from './BankAccountHandler/Steps/ThirdStep';
 export { default as FourthStep } from './BankAccountHandler/Steps/FourthStep';
 // Elements
 export { default as Input } from './Elements/Input';
+export { default as BackLink } from './Elements/BackLink';

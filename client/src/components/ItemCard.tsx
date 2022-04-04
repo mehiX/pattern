@@ -15,6 +15,11 @@ import {
 } from '../services';
 import { setItemToBadState } from '../services/api';
 import { diffBetweenCurrentTime } from '../util';
+import { Button, Table } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+
+// Import helpers
+import { capitalize } from 'lodash';
 
 const PLAID_ENV = process.env.REACT_APP_PLAID_ENV || 'sandbox';
 
@@ -35,6 +40,10 @@ const ItemCard = (props: Props) => {
     routing_numbers: [],
   });
   const [showAccounts, setShowAccounts] = useState(false);
+  const [transactions, setTransactions] = useState([]);
+  const [transactionsShown, setTransactionsShown] = useState(false);
+
+  const { transactionsByAccount, getTransactionsByAccount } = useTransactions();
 
   const { accountsByItem } = useAccounts();
   const { deleteAccountsByItemId } = useAccounts();
@@ -74,6 +83,19 @@ const ItemCard = (props: Props) => {
   const cardClassNames = showAccounts
     ? 'card item-card expanded'
     : 'card item-card';
+
+  // Transactions
+  const toggleShowTransactions = () => {
+    setTransactionsShown(shown => !shown);
+  };
+
+  useEffect(() => {
+    getTransactionsByAccount(id);
+  }, [getTransactionsByAccount, transactionsByAccount, id]);
+
+  useEffect(() => {
+    setTransactions(transactionsByAccount[id] || []);
+  }, [transactionsByAccount, id]);
   return (
     <div className="box">
       <div className={cardClassNames}>
@@ -115,7 +137,66 @@ const ItemCard = (props: Props) => {
           itemId={id}
         />
       </div>
+
       {showAccounts && accounts.length > 0 && (
+        <div>
+          <Table striped bordered hover className="mb-0">
+            <thead>
+              <tr>
+                <th>Account</th>
+                <th>Type</th>
+                <th>Subtype</th>
+                <th>Balance</th>
+                <th className='actions-column'>Transactions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {accounts.map(account => (
+                <tr>
+                  <td>
+                    <span className="smaller-text symbol">#</span>
+                    {account.mask}
+                  </td>
+                  <td>{capitalize(account.type)}</td>
+                  <td>{capitalize(account.subtype)}</td>
+                  <td>
+                    <span className="smaller-text symbol">€</span>
+                    {account.current_balance.toLocaleString(undefined, {
+                      minimumFractionDigits: 2,
+                    })}
+                  </td>
+                  <td className='actions-column'>
+                    <Link to={`/set-own-transactions/${account.id}`}>
+                      <Button
+                        onClick={toggleShowTransactions}
+                        className="button small button-primary"
+                      >
+                        {transactionsShown
+                          ? 'Hide Transactions'
+                          : 'Open Transactions'}
+                      </Button>
+                    </Link>
+                  </td>
+                </tr>
+              ))}
+              {/* {accounts.map(account => (
+              // <div id="itemCards" key={item.id}>
+              //   <ItemCard item={item} userId={userId} />
+              // </div>
+              <tr>
+                <td>{account.mask}</td>
+                <td>{account.type}</td>
+                <td>{account.subtype}</td>
+                <td>{account.current_balance}</td>
+                <td>-</td>
+              </tr>
+            ))} */}
+            </tbody>
+          </Table>
+        </div>
+      )}
+
+      {/* {showAccounts && accounts.length > 0 && (
         <div>
           {accounts.map(account => (
             <div key={account.id}>
@@ -123,7 +204,8 @@ const ItemCard = (props: Props) => {
             </div>
           ))}
         </div>
-      )}
+      )} */}
+
       {showAccounts && accounts.length === 0 && (
         <Callout>
           No transactions or accounts have been retrieved for this item. See the{' '}

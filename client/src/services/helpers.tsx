@@ -2,6 +2,7 @@ import moment from 'moment';
 
 // Order elements by category and by month
 export class Helpers {
+  // Order data for the chart
   static orderDataForhart(transactions: any): any {
     let newArray: any = [];
     transactions.forEach((element: any, index: number) => {
@@ -10,7 +11,6 @@ export class Helpers {
       var month = +transDate.format('M');
       var year = +transDate.format('YYYY');
       if (year === 2022) {
-        console.log(element.amount)
         const flagIndex = newArray
           .map((e: any) => e.name)
           .indexOf(element.category.toUpperCase());
@@ -19,7 +19,9 @@ export class Helpers {
           // Array goes from 0-11. Month from 01-12. Put sum
           // by each month for that category
           newArray[flagIndex].data[month - 1] += +Math.abs(element.amount);
-          newArray[flagIndex].data[month - 1] = +newArray[flagIndex].data[month - 1].toFixed(2);
+          newArray[flagIndex].data[month - 1] = +newArray[flagIndex].data[
+            month - 1
+          ].toFixed(2);
         } else {
           // newArray does not have tipe
           const newObject = {
@@ -33,7 +35,10 @@ export class Helpers {
         }
       }
     });
-    console.log(newArray);
     return newArray;
+  }
+  // Capitalize given string
+  static capitalize(string: string): any {
+    return string.charAt(0).toUpperCase() + string.slice(1);
   }
 }
