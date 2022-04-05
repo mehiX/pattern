@@ -48,6 +48,8 @@ const AddSavingAccount = (props: any) => {
       return;
     }
 
+    console.log(balance);
+
     savingsAccounts.push({
       id: 'kbasjbal',
       item_id: '3',

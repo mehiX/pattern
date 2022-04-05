@@ -8,6 +8,7 @@ import Button from 'plaid-threads/Button';
 import { FirstStep, Logout } from '.';
 import { AddBankAccount } from '.';
 import savingsAccountsImport from '../data/dummyData';
+import Loader from './Elements/Loader';
 
 import {
   RouteInfo,
@@ -65,6 +66,10 @@ const UserPage = () => {
   const { usersById, getUserById } = useUsers();
   const { itemsByUser, getItemsByUser } = useItems();
   const { userState } = useCurrentUser();
+
+  // Handle loader state
+  const [loaderIsShown, setLoaderIsShown] = useState(false);
+
   // Get user
   const rawUser = localStorage.getItem('jubleeUser');
   const jubleeUser = rawUser && rawUser !== '{}' ? JSON.parse(rawUser) : null;
@@ -103,6 +108,7 @@ const UserPage = () => {
     // Note that calls to Plaid's transactions/get endpoint are only made in response
     // to receipt of a transactions webhook.
     getTransactionsByUser(userId);
+    // After transactions, unset Loader
   }, [getTransactionsByUser, userId]);
 
   useEffect(() => {
@@ -176,88 +182,96 @@ const UserPage = () => {
 
   // document.getElementsByTagName('body')[0].style.overflow = 'auto'; // to override overflow:hidden from link pane
   return (
-    <div className="container">
-      <div className="logout-wrapper">
-        <span>
-          Hi, {user.username}, welcome to <b>Jublee!</b>
-        </span>
-        <Logout />
-      </div>
+    <>
+      {loaderIsShown && <Loader />}
+      <div className="container">
+        <div className="logout-wrapper">
+          <span>
+            Hi, {user.username}, welcome to <b>Jublee!</b>
+          </span>
+          <Logout />
+        </div>
 
-      {token != null && token.length > 0 && (
-        // Link (render for adding a bank) will not render unless there is a link token
-        <LaunchLink token={token} userId={userId} itemId={null} />
-      )}
-      {/* {numOfItems === 0 && <AddBankAccount />} */}
+        {token != null && token.length > 0 && (
+          // Link (render for adding a bank) will not render unless there is a link token
+          <LaunchLink token={token} userId={userId} itemId={null} />
+        )}
+        {/* {numOfItems === 0 && <AddBankAccount />} */}
 
-      <div>
         <div>
-          {/* <NavigationLink component={Link} to="/">
+          <div>
+            {/* <NavigationLink component={Link} to="/">
               BACK TO LOGIN
             </NavigationLink> */}
 
-          {linkTokens.error.error_code != null && (
-            <Callout warning>
-              <div>
-                Unable to fetch link_token: please make sure your backend server
-                is running and that your .env file has been configured
-                correctly.
-              </div>
-              <div>
-                Error Code: <code>{linkTokens.error.error_code}</code>
-              </div>
-              <div>
-                Error Type: <code>{linkTokens.error.error_type}</code>{' '}
-              </div>
-              <div>Error Message: {linkTokens.error.error_message}</div>
-            </Callout>
-          )}
-          {/* <UserCard
+            {linkTokens.error.error_code != null && (
+              <Callout warning>
+                <div>
+                  Unable to fetch link_token: please make sure your backend
+                  server is running and that your .env file has been configured
+                  correctly.
+                </div>
+                <div>
+                  Error Code: <code>{linkTokens.error.error_code}</code>
+                </div>
+                <div>
+                  Error Type: <code>{linkTokens.error.error_type}</code>{' '}
+                </div>
+                <div>Error Message: {linkTokens.error.error_message}</div>
+              </Callout>
+            )}
+            {/* <UserCard
             user={user}
             userId={userId}
             removeButton={false}
             linkButton
           /> */}
-          {numOfItems === 0 && (
-            <div className="jublee-container jublee-container-margin-top jublee-container-flex">
-              <h4>
-                You didn't connect yet any <b>checking account</b>!
-              </h4>
-              <p className="text-centered">
-                To start using Jublee, please add a checking account.
-              </p>
-              <button className="button button-primary" onClick={initiateLink}>
-                Start
-              </button>
-            </div>
-          )}
-          {savingAccountsNumber === 0 && (
-            <div className="jublee-container jublee-container-margin-top jublee-container-flex">
-              <h4>
-                You didn't connect yet any <b>savings account</b>!
-              </h4>
-              <p className="text-centered">
-                To start using Jublee, please add a saving account.
-              </p>
-              <Link to="/add-saving-account" className="button button-primary">
-                Start
-              </Link>
-            </div>
-          )}
-          {numOfItems > 0 && transactions.length > 0 && (
-            <SpendingInsights
-              numOfItems={numOfItems}
-              transactions={transactions}
-            />
-          )}
-          {/* {numOfItems === 0 && <ErrorMessage />} */}
-          {numOfItems > 0 && transactions.length === 0 && (
-            <div className="loading">
-              <LoadingSpinner />
-              <LoadingCallout />
-            </div>
-          )}
-          {/* {numOfItems > 0 && transactions.length > 0 && (
+            {numOfItems === 0 && (
+              <div className="jublee-container jublee-container-margin-top jublee-container-flex">
+                <h4>
+                  You didn't connect yet any <b>checking account</b>!
+                </h4>
+                <p className="text-centered">
+                  To start using Jublee, please add a checking account.
+                </p>
+                <button
+                  className="button button-primary"
+                  onClick={initiateLink}
+                >
+                  Start
+                </button>
+              </div>
+            )}
+            {savingAccountsNumber === 0 && (
+              <div className="jublee-container jublee-container-margin-top jublee-container-flex">
+                <h4>
+                  You didn't connect yet any <b>savings account</b>!
+                </h4>
+                <p className="text-centered">
+                  To start using Jublee, please add a saving account.
+                </p>
+                <Link
+                  to="/add-saving-account"
+                  className="button button-primary"
+                >
+                  Start
+                </Link>
+              </div>
+            )}
+            {numOfItems > 0 && transactions.length > 0 && (
+              <SpendingInsights
+                numOfItems={numOfItems}
+                transactions={transactions}
+              />
+            )}
+            {/* {numOfItems === 0 && <ErrorMessage />} */}
+            {numOfItems > 0 && transactions.length === 0 && (
+              <div className="loading">
+                <LoadingSpinner />
+                <LoadingCallout />
+              </div>
+            )}
+            {/* {numOfItems > 0 && transactions.length > 0 && (
             <>
               <NetWorth
                 accounts={accounts}
@@ -272,110 +286,113 @@ const UserPage = () => {
               />
             </>
           )} */}
-          {numOfItems === 0 && transactions.length === 0 && assets.length > 0 && (
-            <>
-              <NetWorth
-                accounts={accounts}
-                numOfItems={numOfItems}
-                personalAssets={assets}
-                userId={userId}
-                assetsOnly
-              />
-            </>
-          )}
-          {numOfItems > 0 && (
-            <>
-              <div className="item__header">
-                <div>
-                  <h2 className="item__header-heading">
-                    {`${items.length} ${pluralize(
-                      'Bank',
-                      items.length
-                    )} Linked`}
-                  </h2>
-                  {!!items.length && (
-                    <p className="item__header-subheading">
-                      Belown is a list of all your connected banks. Click on a
-                      bank to view its associated accounts.
-                    </p>
-                  )}
-                </div>
+            {numOfItems === 0 &&
+              transactions.length === 0 &&
+              assets.length > 0 && (
+                <>
+                  <NetWorth
+                    accounts={accounts}
+                    numOfItems={numOfItems}
+                    personalAssets={assets}
+                    userId={userId}
+                    assetsOnly
+                  />
+                </>
+              )}
+            {numOfItems > 0 && (
+              <>
+                <div className="item__header">
+                  <div>
+                    <h2 className="item__header-heading">
+                      {`${items.length} ${pluralize(
+                        'Bank',
+                        items.length
+                      )} Linked`}
+                    </h2>
+                    {!!items.length && (
+                      <p className="item__header-subheading">
+                        Belown is a list of all your connected banks. Click on a
+                        bank to view its associated accounts.
+                      </p>
+                    )}
+                  </div>
 
-                <Button
-                  large
-                  inline
-                  className="button button-primary"
-                  onClick={initiateLink}
-                >
-                  Add another checking account
-                </Button>
+                  <Button
+                    large
+                    inline
+                    className="button button-primary"
+                    onClick={initiateLink}
+                  >
+                    Add another checking account
+                  </Button>
 
-                {/* {token != null && token.length > 0 && (
+                  {/* {token != null && token.length > 0 && (
                     // Link will not render unless there is a link token
                     <LaunchLink token={token} userId={userId} itemId={null} />
                   )} */}
-              </div>
-              <ErrorMessage />
-
-              {items.map(item => (
-                <div id="itemCards" key={item.id}>
-                  <ItemCard item={item} userId={userId} />
                 </div>
-              ))}
-            </>
-          )}
+                <ErrorMessage />
 
-          {savingAccounts && savingAccountsNumber > 0 && (
-            <>
-              <div className="item__header">
-                <div>
-                  <h2 className="item__header-heading">
-                    {savingAccountsNumber} Savings account linked
-                  </h2>
-                  <p className="item__header-subheading">
-                    Belown is a list of all your savings accounts.
-                  </p>
+                {items.map(item => (
+                  <div id="itemCards" key={item.id}>
+                    <ItemCard item={item} userId={userId} />
+                  </div>
+                ))}
+              </>
+            )}
+
+            {savingAccounts && savingAccountsNumber > 0 && (
+              <>
+                <div className="item__header">
+                  <div>
+                    <h2 className="item__header-heading">
+                      {savingAccountsNumber} Savings account linked
+                    </h2>
+                    <p className="item__header-subheading">
+                      Belown is a list of all your savings accounts.
+                    </p>
+                  </div>
+                  <Link to="/add-saving-account">
+                    <Button large inline className="button button-primary">
+                      Add another saving account
+                    </Button>
+                  </Link>
                 </div>
-                <Link to="/add-saving-account">
-                  <Button large inline className="button button-primary">
-                    Add another saving account
-                  </Button>
-                </Link>
-              </div>
-              <Table striped bordered hover>
-                <thead>
-                  <tr>
-                    <th />
-                    <th>Name</th>
-                    <th>Bank</th>
-                    <th>Iban</th>
-                    <th>Balance</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {savingAccounts.map((account, index) => {
-                    return (
-                      <tr>
-                        <td />
-                        <td>{account.name}</td>
-                        <td>{account.bank_name}</td>
-                        <td>{account.iban}</td>
-                        <td>
-                          <span className="smaller-text symbol">€</span>
-                          {account.balance.toLocaleString(undefined, {
-                            minimumFractionDigits: 2,
-                          })}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </Table>
-            </>
-          )}
+                <Table striped bordered hover>
+                  <thead>
+                    <tr>
+                      <th />
+                      <th>Name</th>
+                      <th>Bank</th>
+                      <th>Iban</th>
+                      <th>Balance</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {savingAccounts.map((account, index) => {
+                      return (
+                        <tr>
+                          <td />
+                          <td>{account.name}</td>
+                          <td>{account.bank_name}</td>
+                          <td>{account.iban}</td>
+                          <td>
+                            <span className="smaller-text symbol">€</span>
+                            {account.balance.toLocaleString(undefined, {
+                              minimumFractionDigits: 2,
+                            })}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </Table>
+              </>
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

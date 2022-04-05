@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 
 const Input = (props: {
   value?: string | number | null;
@@ -7,15 +7,16 @@ const Input = (props: {
   inputType: string;
   step?: string;
   placeholder?: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }) => {
+
   return (
     <div className="floating-label-group">
       <input
         type={props.inputType}
         id={props.id}
         className="form-control"
-        autoFocus
+        // autoFocus
         required
         step={props.step}
         placeholder={props.placeholder}

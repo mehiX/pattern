@@ -49,42 +49,37 @@ const SetOwnTransactions = (props: any) => {
         <div className="jublee-container jublee-container-margin-top mb-5">
           <h2>Select your own transaction</h2>
           <p>We require these informations because -- placeholder --</p>
-          {transactions.map(
-            element =>
-              element.name.toLowerCase().includes('dinther') && (
-                <div className="inputWrapper checkboxWrapper">
-                  <div className="nameWrapper">
-                    <input
-                      type="checkbox"
-                      id={'chekbox_' + element.id}
-                      defaultChecked={false}
-                      onChange={(event: any) => {
-                        handleChangeChk(element.id, event.target as any);
-                      }}
-                    />
-                    <label
-                      htmlFor={'chekbox_' + element.id}
-                      title={element.name}
-                    >
-                      {element.name.length > 70
-                        ? element.name.slice(0, 70) + '...'
-                        : element.name}
-                    </label>
-                  </div>
-                  <div className="amountWrapper">
-                    <span>
-                      {element.amount.toLocaleString().includes('-') ? '' : '+'}
-                      {element.amount.toLocaleString(undefined, {
-                        minimumFractionDigits: 2,
-                      })}
-                    </span>
-                  </div>
-                  <div>
-                    <Moment format="YYYY MMM DD">{element.date}</Moment>
-                  </div>
-                </div>
-              )
-          )}
+          {transactions.map(element => (
+            // element.name.toLowerCase().includes('dinther') && (
+            <div className="inputWrapper checkboxWrapper">
+              <div className="nameWrapper">
+                <input
+                  type="checkbox"
+                  id={'chekbox_' + element.id}
+                  defaultChecked={false}
+                  onChange={(event: any) => {
+                    handleChangeChk(element.id, event.target as any);
+                  }}
+                />
+                <label htmlFor={'chekbox_' + element.id} title={element.name}>
+                  {element.name.length > 70
+                    ? element.name.slice(0, 70) + '...'
+                    : element.name}
+                </label>
+              </div>
+              <div className="amountWrapper">
+                <span>
+                  {element.amount.toLocaleString().includes('-') ? '' : '+'}
+                  {element.amount.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                  })}
+                </span>
+              </div>
+              <div>
+                <Moment format="YYYY MMM DD">{element.date}</Moment>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </>

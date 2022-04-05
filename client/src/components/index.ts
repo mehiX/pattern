@@ -38,3 +38,4 @@ export { default as FourthStep } from './BankAccountHandler/Steps/FourthStep';
 // Elements
 export { default as Input } from './Elements/Input';
 export { default as BackLink } from './Elements/BackLink';
+export { default as Loader } from './Elements/Loader';

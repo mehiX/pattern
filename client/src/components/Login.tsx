@@ -14,6 +14,7 @@ import {
 } from 'firebase/auth';
 
 import { useCurrentUser, useUsers } from '../services';
+import Loader from './Elements/Loader';
 import { isEmpty } from 'lodash';
 import { userInfo } from 'os';
 
@@ -27,6 +28,9 @@ const Login = () => {
 
   const { allUsers, addNewUser, getUsers } = useUsers();
   const [globalUsers, setGlobalUsers] = useState({});
+
+  // Handle loader state
+  const [loaderIsShown, setLoaderIsShown] = useState(false);
 
   async function getGlobalUsers(): Promise<any> {
     return new Promise(resolve => {
@@ -56,6 +60,7 @@ const Login = () => {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     let username: string = '';
+    setLoaderIsShown(true);
 
     // Log in user with Google
     signInWithPopup(auth, provider)
@@ -83,6 +88,7 @@ const Login = () => {
           // TODO:  Handle error
           console.error('Login Failed', error);
         }
+        setLoaderIsShown(false);
       })
       .catch(error => {
         // Handle Errors here.
@@ -92,6 +98,7 @@ const Login = () => {
         const email = error.email;
         // The AuthCredential type that was used.
         const credential = GoogleAuthProvider.credentialFromError(error);
+        setLoaderIsShown(false);
       });
   };
 
@@ -103,11 +110,11 @@ const Login = () => {
     };
     setUser(jubleeUser);
     localStorage.setItem('jubleeUser', JSON.stringify(jubleeUser));
-    console.log('userState', userState);
-  }, [userState])
+  }, [userState]);
 
   return (
     <div>
+      {loaderIsShown && <Loader />}
       <div className="fullpage-wrapper flex flex-centered">
         <div className="login-wrapper">
           <h1 className="text-centered">LOGIN</h1>
